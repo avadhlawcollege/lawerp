@@ -1,0 +1,4102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avadh Law College - Barabanki</title>
+<style>
+  :root {
+    --primary: #0f4c81;
+    --primary-dark: #09355c;
+    --accent: #0d9488;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #cbd5e1;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --warning: #d97706;
+    --purple: #7c3aed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body { background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 260px; background: var(--primary-dark); color: #fff;
+    display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100;
+    overflow-y: auto;
+  }
+  .brand {
+    padding: 18px 14px; border-bottom: 1px solid rgba(255,255,255,0.12);
+    text-align: center; background: rgba(0,0,0,0.15);
+  }
+  .brand img { width: 58px; height: 58px; object-fit: contain; border-radius: 50%; background: #fff; padding: 3px; margin-bottom: 8px; }
+  .brand h2 { font-size: 13.5px; line-height: 1.3; font-weight: 700; letter-spacing: 0.3px; }
+  .brand p { font-size: 11px; color: #93c5fd; margin-top: 3px; }
+
+  .nav { padding: 10px 8px; flex: 1; }
+  .nav-btn {
+    width: 100%; text-align: left; background: transparent; border: none; color: #e2e8f0;
+    padding: 10px 12px; border-radius: 7px; cursor: pointer; font-size: 13.5px;
+    display: flex; align-items: center; gap: 10px; margin-bottom: 4px; transition: 0.15s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .nav-btn.active { background: var(--accent); color: #fff; font-weight: 600; }
+  .sidebar-footer { padding: 10px; font-size: 11px; color: #94a3b8; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+
+  /* Main Area */
+  .main { margin-left: 260px; flex: 1; padding: 20px 24px; max-width: calc(100% - 260px); }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;
+    background: var(--card); padding: 12px 18px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .topbar h1 { font-size: 18px; color: var(--primary-dark); }
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11.5px; font-weight: 600; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-amber { background: #fef3c7; color: #b45309; }
+  .badge-red { background: #fee2e2; color: #b91c1c; }
+  .badge-purple { background: #ede9fe; color: #6d28d9; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Cards & Grid */
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 18px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 16px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; margin-bottom: 16px; }
+  .card { background: var(--card); border-radius: 10px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 16px; }
+  .card h3 { font-size: 15px; color: var(--primary-dark); margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  .stat-card { background: var(--card); border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid var(--primary); }
+  .stat-card.teal { border-left-color: var(--accent); }
+  .stat-card.green { border-left-color: var(--success); }
+  .stat-card.amber { border-left-color: var(--warning); }
+  .stat-card.red { border-left-color: var(--danger); }
+  .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+  .stat-val { font-size: 23px; font-weight: 700; color: var(--text); margin-top: 4px; }
+  .stat-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+  /* Forms */
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 12px; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label { font-size: 12px; font-weight: 600; color: #334155; }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; background: #fff;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(15,76,129,0.12);
+  }
+  .full-width { grid-column: 1 / -1; }
+
+  /* Buttons */
+  .btn {
+    padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 6px; transition: 0.15s;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-teal { background: var(--accent); color: #fff; }
+  .btn-teal:hover { background: #0f766e; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-success:hover { background: #15803d; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-danger:hover { background: #b91c1c; }
+  .btn-warning { background: var(--warning); color: #fff; }
+  .btn-purple { background: var(--purple); color: #fff; }
+  .btn-purple:hover { background: #6d28d9; }
+  .btn-outline { background: #fff; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { background: #f8fafc; }
+  .btn-sm { padding: 4px 9px; font-size: 11.5px; }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 9px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+  th { background: #f8fafc; font-weight: 700; color: #334155; font-size: 12px; text-transform: uppercase; }
+  tr:hover td { background: #f8fafc; }
+
+  /* Fee Section Boxes */
+  .fee-box { border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: #f8fafc; }
+  .fee-box h4 { font-size: 13.5px; color: var(--primary-dark); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; }
+  .fee-box.hostel { border-color: #99f6e4; background: #f0fdfa; }
+  .fee-box.uniform { border-color: #fde68a; background: #fffbeb; }
+
+  .justify-banner {
+    padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+
+  .photo-preview {
+    width: 100px; height: 120px; border: 2px dashed var(--border); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden; background: #f8fafc;
+    font-size: 11px; color: var(--muted); text-align: center;
+  }
+  .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+  .doc-chip {
+    display: inline-flex; align-items: center; gap: 6px; background: #e2e8f0; padding: 5px 10px;
+    border-radius: 6px; font-size: 12px; margin: 4px 4px 0 0;
+  }
+
+  /* Modal */
+  .modal-bg {
+    display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.55); z-index: 999;
+    align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 10px; width: 100%; max-width: 850px; max-height: 90vh;
+    overflow-y: auto; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 20px; right: 20px; background: #0f172a; color: #fff;
+    padding: 11px 18px; border-radius: 8px; font-size: 13px; display: none; z-index: 2000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  /* Print Area */
+  #printArea { display: none; }
+  @page {
+    size: A4 portrait;
+    margin: 6mm;
+  }
+  @media print {
+    html, body {
+      width: auto;
+      background: #fff !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .sidebar, .main, .modal-bg, #toast { display: none !important; }
+    #printArea { display: block !important; width: 100%; padding: 0; margin: 0; color: #000; }
+    .print-page {
+      width: 100%;
+      min-height: 282mm;
+      box-sizing: border-box;
+      padding: 9mm 10mm;
+      border: 1.8px solid #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      background: #fff;
+    }
+    .print-page.print-report {
+      height: auto;
+      max-height: none;
+      min-height: 282mm;
+      overflow: visible;
+    }
+    .print-page.print-dual {
+      padding: 6mm;
+      justify-content: space-between;
+    }
+    .print-page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+    .p-body {
+      flex: 1 1 auto;
+    }
+    .p-half-card {
+      flex: 1 1 0;
+      border: 1.5px solid #000;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-sizing: border-box;
+    }
+    .p-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #0f4c81;
+      padding-bottom: 8px;
+      margin-bottom: 11px;
+      flex-shrink: 0;
+    }
+    .p-header img { width: 66px; height: 66px; object-fit: contain; flex-shrink: 0; }
+    .p-header-text { flex: 1; text-align: center; min-width: 0; padding: 0 4px; }
+    .p-header-text h1 { font-size: 26px; font-weight: 800; line-height: 1.16; color: #dc2626; text-transform: uppercase; letter-spacing: 0.25px; margin-bottom: 4px; }
+    .p-header-text p { font-size: 10.5px; color: #1e293b; margin-top: 2px; line-height: 1.3; }
+    .p-header-text p.p-addr-line { font-size: 11px; font-weight: 500; color: #0f172a; }
+    .p-header-text p.p-affil-line { font-size: 10px; color: #1e293b; }
+    .p-half-card .p-header-text h1 { font-size: 22px; line-height: 1.15; }
+    .p-half-card .p-header-text p.p-addr-line { font-size: 9.5px; }
+    .p-half-card .p-header-text p { font-size: 9px; }
+    .p-title {
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: #f1f5f9;
+      border: 1px solid #334155;
+      padding: 6px 8px;
+      margin: 10px 0 14px;
+      flex-shrink: 0;
+    }
+    .p-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; }
+    .p-table th, .p-table td { border: 1px solid #334155; padding: 5px 7px; text-align: left; }
+    .p-table th { background: #f1f5f9; }
+    .p-sign-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: auto;
+      padding-top: 28px;
+      font-size: 13px;
+      font-weight: 600;
+      width: 100%;
+      flex-shrink: 0;
+    }
+    .p-sign-box {
+      text-align: center;
+      min-width: 155px;
+      border-top: none;
+      padding-top: 5px;
+    }
+  }
+
+  /* Login Screen */
+  #loginOverlay {
+    position: fixed; inset: 0; background: linear-gradient(135deg, #09355c 0%, #0f4c81 55%, #0d9488 100%);
+    z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 16px;
+  }
+  .login-card {
+    background: #fff; width: 100%; max-width: 410px; border-radius: 14px; padding: 28px 26px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35); text-align: center;
+  }
+  .login-logo {
+    width: 68px; height: 68px; border-radius: 50%; background: #0f4c81; color: #fff;
+    font-size: 24px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 10px; overflow: hidden; border: 2px solid #cbd5e1;
+  }
+  .login-logo img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+  .login-card h2 { font-size: 16px; color: #09355c; line-height: 1.3; margin-bottom: 4px; }
+  .login-card p.sub { font-size: 12px; color: #64748b; margin-bottom: 18px; }
+  .role-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .role-tab {
+    padding: 10px; border: 2px solid #cbd5e1; border-radius: 8px; background: #f8fafc;
+    cursor: pointer; font-weight: 700; font-size: 13px; color: #334155; transition: 0.15s;
+  }
+  .role-tab.active { border-color: #0f4c81; background: #dbeafe; color: #0f4c81; }
+  .role-tab.emp.active { border-color: #0d9488; background: #ccfbf1; color: #0f766e; }
+  .login-err { color: #dc2626; font-size: 12.5px; font-weight: 600; margin-top: 8px; min-height: 18px; }
+  .admin-only { }
+  body.role-employee .admin-only { display: none !important; }
+
+
+  /* Editable Gate Pass Builder */
+  .gp-row {
+    display: grid; grid-template-columns: 1fr 1.4fr auto auto auto; gap: 8px; align-items: center;
+    background: #fff; border: 1px solid #e2e8f0; padding: 7px 9px; border-radius: 6px; margin-bottom: 7px;
+  }
+  .gp-row input { padding: 6px 8px; border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; width: 100%; }
+  .gp-sig-chip {
+    display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; border: 1px solid var(--border);
+    padding: 5px 8px; border-radius: 6px; margin: 4px 6px 4px 0;
+  }
+  .gp-sig-chip input { border: none; background: transparent; font-size: 12.5px; font-weight: 600; width: 145px; outline: none; }
+  .gp-preview-box {
+    border: 1.5px solid #334155; border-radius: 6px; padding: 14px; background: #fff; font-size: 12px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+  <div class="login-card">
+    <div class="login-logo" id="loginLogoBox">AL</div>
+    <h2 id="loginCollegeName">AVADH LAW COLLEGE</h2>
+    <p class="sub" id="loginCollegeSub">BARABANKI, UTTAR PRADESH — ERP LOGIN</p>
+
+    <div class="role-tabs">
+      <button type="button" class="role-tab active" id="tabRoleAdmin" onclick="selectLoginRole('admin')">👑 Admin Login</button>
+      <button type="button" class="role-tab emp" id="tabRoleEmp" onclick="selectLoginRole('employee')">👤 Employee Login</button>
+    </div>
+
+    <div class="form-group" style="text-align:left; margin-bottom:14px;">
+      <label id="loginPassLabel">Enter Admin Password</label>
+      <input type="password" id="loginPasswordInput" placeholder="Enter password..." onkeydown="if(event.key==='Enter') doLogin()" style="padding:10px 12px; font-size:14px;">
+    </div>
+
+    <button type="button" class="btn btn-primary" style="width:100%; justify-content:center; padding:11px; font-size:14px;" onclick="doLogin()">🔐 Unlock Software</button>
+    <div class="login-err" id="loginError"></div>
+    <p style="font-size:11px; color:#94a3b8; margin-top:14px;">
+      Default Passwords — Admin: <b>admin123</b> | Employee: <b>staff123</b><br>
+      (Admin can change both passwords anytime in Settings)
+    </p>
+  </div>
+</div>
+
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="brand">
+    <img id="sideLogo" src="" alt="Logo" style="display:none;">
+    <div id="sideLogoFallback" style="width:54px;height:54px;border-radius:50%;background:#fff;color:#0f4c81;font-weight:800;font-size:20px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;">AL</div>
+    <h2 id="sideCollegeName">AVADH LAW COLLEGE</h2>
+    <p id="sideCollegeSub">BARABANKI, UTTAR PRADESH</p>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showSection('dashboard', this)">📊 Dashboard</button>
+    <button class="nav-btn" onclick="showSection('admission', this)">📝 New Admission</button>
+    <button class="nav-btn" onclick="showSection('students', this)">🎓 Students & Docs</button>
+    <button class="nav-btn" onclick="showSection('fees', this)">💰 Fee Management</button>
+    <button class="nav-btn" onclick="showSection('reports', this)">📈 Reports & Downloads</button>
+    <button class="nav-btn admin-only" onclick="showSection('promotion', this)">🚀 Promotion / Passout</button>
+    <button class="nav-btn" onclick="showSection('gatepass', this)">🚪 Gate Pass (Editable)</button>
+    <button class="nav-btn" onclick="showSection('certificates', this)">🖨️ Certificates & TC</button>
+    <button class="nav-btn" onclick="showSection('letterhead', this)">📄 Letterhead & Notices</button>
+    <button class="nav-btn" onclick="showSection('comms', this)">💬 WhatsApp / SMS</button>
+    <button class="nav-btn admin-only" onclick="showSection('settings', this)">⚙️ Settings & Fee Setup</button>
+  </nav>
+  <div class="sidebar-footer">
+    Offline Windows ERP v5.7<br>Exact PDF Official Format
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+  <div class="topbar">
+    <h1 id="pageTitle">Dashboard Overview</h1>
+    <div class="btn-group">
+      <button type="button" class="btn btn-outline btn-sm" id="btnToggleLogoSides" onclick="toggleGlobalLogoSides()" title="Click to switch Print Logo between Both Sides & 1 Side Only" style="border-color:var(--primary);color:var(--primary-dark);">🖼 Print Logo: Both Sides</button>
+      <span class="badge badge-green" id="autoBackupBadge" title="Automatic Backup Status">🔄 Auto-Backup: ON</span>
+      <span class="badge badge-purple" id="activeRoleBadge">👑 Admin</span>
+      <button class="btn btn-outline btn-sm admin-only" onclick="exportBackup()">⬇ Quick Backup</button>
+      <button class="btn btn-primary btn-sm" onclick="showSection('admission')">+ New Admission</button>
+      <button class="btn btn-danger btn-sm" onclick="doLogout()">🔒 Logout</button>
+    </div>
+  </div>
+
+  <!-- 1. DASHBOARD -->
+  <section id="sec-dashboard" class="section active">
+    <div class="grid-4">
+      <div class="stat-card">
+        <div class="stat-label">Total Students</div>
+        <div class="stat-val" id="stTotalStudents">0</div>
+        <div class="stat-sub" id="stHostelSplit">Hosteller: 0 | Day Scholar: 0</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">Total Fee Collected</div>
+        <div class="stat-val" id="stTotalCollected">₹0</div>
+        <div class="stat-sub" id="stCollectedSplit">Col: ₹0 | Hos: ₹0 | Uni: ₹0</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">Total Pending Dues</div>
+        <div class="stat-val" id="stTotalDue">₹0</div>
+        <div class="stat-sub" id="stCarrySub">Includes Previous Carry-Forward: ₹0</div>
+      </div>
+      <div class="stat-card teal">
+        <div class="stat-label">Receipts & Notices</div>
+        <div class="stat-val" id="stReceiptsCount">0</div>
+        <div class="stat-sub" id="stNoticesCount">Saved Notices: 0</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>Recent Admissions</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Adm No</th><th>Student Name</th><th>Course & Term</th><th>Type</th><th>Due</th></tr></thead>
+            <tbody id="dashRecentStudents"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Recent Fee Receipts</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Receipt</th><th>Student</th><th>Term / Section</th><th>Amount</th><th>Date</th></tr></thead>
+            <tbody id="dashRecentReceipts"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. NEW / EDIT ADMISSION -->
+  <section id="sec-admission" class="section">
+    <div class="card">
+      <h3>
+        <span id="admFormHeading">Student Admission Form (Course-Wise Auto Fee + Hosteller/Day Scholar)</span>
+        <button class="btn btn-outline btn-sm" onclick="resetAdmissionForm()">Clear / New Form</button>
+      </h3>
+      <input type="hidden" id="editStudentId">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Admission No *</label>
+          <input type="text" id="admNo" placeholder="ALC/2026/001">
+        </div>
+        <div class="form-group">
+          <label>Registration No</label>
+          <input type="text" id="regNo" placeholder="REG-2026-001">
+        </div>
+        <div class="form-group">
+          <label>Admission Date *</label>
+          <input type="date" id="admDate">
+        </div>
+        <div class="form-group">
+          <label>Course (Separate Fee Structure) *</label>
+          <select id="admCourse" onchange="onAdmissionCourseChange()" style="font-weight:700; border:2px solid var(--accent);">
+            <option value="LLB 3 Year">LLB (3 Year)</option>
+            <option value="LLB 5 Year">BA LLB (5 Year Integrated)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Current Year / Semester *</label>
+          <select id="admTerm">
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+            <option value="5th Year">5th Year</option>
+            <option value="1st Semester">1st Semester</option>
+            <option value="2nd Semester">2nd Semester</option>
+            <option value="3rd Semester">3rd Semester</option>
+            <option value="4th Semester">4th Semester</option>
+            <option value="5th Semester">5th Semester</option>
+            <option value="6th Semester">6th Semester</option>
+            <option value="7th Semester">7th Semester</option>
+            <option value="8th Semester">8th Semester</option>
+            <option value="9th Semester">9th Semester</option>
+            <option value="10th Semester">10th Semester</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Session / Batch</label>
+          <input type="text" id="admSession" value="2026-27">
+        </div>
+        <div class="form-group">
+          <label>Student Type (Hosteller / Day Scholar) *</label>
+          <select id="admType" onchange="applyHostelDayLogic()" style="font-weight:700; border:2px solid var(--primary);">
+            <option value="Day Scholar">🚌 Day Scholar (Transport ON, Hostel OFF)</option>
+            <option value="Hosteller">🏠 Hosteller (Hostel ON, Transport OFF)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Student Full Name *</label>
+          <input type="text" id="admName" placeholder="Enter student name">
+        </div>
+        <div class="form-group">
+          <label>Father's Name *</label>
+          <input type="text" id="admFather" placeholder="Father's name">
+        </div>
+        <div class="form-group">
+          <label>Mother's Name</label>
+          <input type="text" id="admMother" placeholder="Mother's name">
+        </div>
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date" id="admDob">
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <select id="admGender"><option>Female</option><option>Male</option><option>Other</option></select>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="admCategory"><option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>EWS</option></select>
+        </div>
+        <div class="form-group">
+          <label>Student Mobile / WhatsApp *</label>
+          <input type="text" id="admPhone" placeholder="10-digit mobile">
+        </div>
+        <div class="form-group">
+          <label>Parent / Guardian Mobile</label>
+          <input type="text" id="admParentPhone" placeholder="10-digit mobile">
+        </div>
+        <div class="form-group">
+          <label>Aadhaar Number</label>
+          <input type="text" id="admAadhaar" placeholder="XXXX-XXXX-XXXX">
+        </div>
+        <div class="form-group full-width">
+          <label>Full Residential Address</label>
+          <input type="text" id="admAddress" placeholder="Village/Mohalla, Post, District, Pin Code">
+        </div>
+      </div>
+
+      <!-- PHOTO & DOCUMENTS -->
+      <div class="grid-2" style="margin-top:16px;">
+        <div class="fee-box">
+          <h4>Student Passport Photo</h4>
+          <div style="display:flex; gap:14px; align-items:center;">
+            <div class="photo-preview" id="admPhotoPreview">No Photo</div>
+            <div style="flex:1;">
+              <input type="file" id="admPhotoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+              <p style="font-size:11.5px; color:var(--muted); margin-top:6px;">Photo is auto-compressed and printed on Admission Form, Reg Slip & Gate Passes.</p>
+              <button type="button" class="btn btn-outline btn-sm" style="margin-top:6px;" onclick="clearPhoto()">Remove Photo</button>
+            </div>
+          </div>
+        </div>
+        <div class="fee-box">
+          <h4>Attach Documents (Marksheet, TC, Aadhaar, etc.)</h4>
+          <input type="file" id="admDocsInput" multiple onchange="handleDocsUpload(event)">
+          <div id="admDocsList" style="margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <!-- SEPARATED FEE STRUCTURE -->
+      <h3 style="margin-top:18px;">
+        <span>Separated Fee Justification (Course + Hosteller/Day Scholar Auto-Matched)</span>
+        <button type="button" class="btn btn-outline btn-sm" onclick="forceReloadCourseFees()">🔄 Reload Selected Course Default Fees</button>
+      </h3>
+      <div id="admJustifyBanner" class="justify-banner"></div>
+
+      <div class="grid-3">
+        <!-- 1. COLLEGE FEE -->
+        <div class="fee-box" style="grid-column: span 2;">
+          <h4><span>1. COLLEGE FEE (9 Heads)</span><span id="sumCollegeFee">₹0</span></h4>
+          <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+            <div class="form-group"><label>Reg Fee</label><input type="number" id="f_regFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Caution Money</label><input type="number" id="f_cautionMoney" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Tuition Fee</label><input type="number" id="f_tuitionFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Transportation Fee</label><input type="number" id="f_transportFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Moot Court / Legal Aid Fee</label><input type="number" id="f_clinicalFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Development Fee</label><input type="number" id="f_devFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Miscellaneous Fee</label><input type="number" id="f_miscFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Admission Fee</label><input type="number" id="f_admFee" value="0" oninput="calcAdmissionTotal()"></div>
+            <div class="form-group"><label>Lib Fee</label><input type="number" id="f_libFee" value="0" oninput="calcAdmissionTotal()"></div>
+          </div>
+        </div>
+
+        <!-- 2. HOSTEL & 3. UNIFORM -->
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="fee-box hostel">
+            <h4><span>2. HOSTEL FEE</span><span id="sumHostelFee">₹0</span></h4>
+            <div class="form-group">
+              <label>Hostel Fee (Auto ₹0 for Day Scholar)</label>
+              <input type="number" id="f_hostelFee" value="0" oninput="calcAdmissionTotal()">
+            </div>
+          </div>
+          <div class="fee-box uniform">
+            <h4><span>3. UNIFORM FEE</span><span id="sumUniformFee">₹0</span></h4>
+            <div class="form-group">
+              <label>Uniform + Kit</label>
+              <input type="number" id="f_uniformFee" value="0" oninput="calcAdmissionTotal()">
+            </div>
+          </div>
+          <div style="background:var(--primary-dark); color:#fff; padding:12px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; font-weight:600;">GRAND TOTAL FEE</span>
+            <span style="font-size:20px; font-weight:800;" id="sumGrandTotal">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-top:16px;">
+        <button class="btn btn-primary" onclick="saveStudent()">💾 Save Student Record</button>
+        <button class="btn btn-teal" onclick="saveStudent(true)">💾 Save & Print Admission Form</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. STUDENTS & DOCUMENTS -->
+  <section id="sec-students" class="section">
+    <div class="card">
+      <h3>
+        <span>Registered Students Directory (Admin Edit / Delete / History)</span>
+        <div class="btn-group">
+          <input type="text" id="studentSearch" placeholder="Search name, adm no, phone..." oninput="renderStudentsTable()" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;">
+          <select id="studentCourseFilter" onchange="renderStudentsTable()" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;">
+            <option value="">All Courses</option>
+            <option value="LLB 3 Year">LLB 3 Year</option>
+            <option value="LLB 5 Year">LLB 5 Year</option>
+          </select>
+          <select id="studentTypeFilter" onchange="renderStudentsTable()" style="padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;">
+            <option value="">All Types</option>
+            <option value="Hosteller">Hosteller</option>
+            <option value="Day Scholar">Day Scholar</option>
+          </select>
+        </div>
+      </h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Photo</th><th>Adm / Reg No</th><th>Student Details</th><th>Course / Term / Type</th>
+              <th>Payable (Incl. Prev Bal)</th><th>Paid</th><th>Due</th><th>Docs</th><th>Admin Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FEE MANAGEMENT -->
+  <section id="sec-fees" class="section">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Collect Fee (Separated Sections)</h3>
+        <input type="hidden" id="editReceiptId">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>Select Student *</label>
+            <select id="feeStudentSelect" onchange="loadStudentFeeStatus()"></select>
+            <div id="feeStudentTypeBanner" style="display:none; font-size:12px; font-weight:700; margin-top:6px; padding:6px 10px; border-radius:6px;"></div>
+          </div>
+          <div class="form-group">
+            <label>Fee Section *</label>
+            <select id="feeSectionSelect" onchange="updateFeeHeadDropdown()">
+              <option value="College Fee">College Fee (9 Heads)</option>
+              <option value="Hostel Fee">Hostel Fee (Hostel)</option>
+              <option value="Uniform Fee">Uniform Fee (Uniform + Kit)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Fee Head *</label>
+            <select id="feeHeadSelect"></select>
+          </div>
+          <div class="form-group">
+            <label>Amount Received (₹) *</label>
+            <input type="number" id="feeAmount" placeholder="Enter amount">
+          </div>
+          <div class="form-group">
+            <label>Payment Date *</label>
+            <input type="date" id="feeDate">
+          </div>
+          <div class="form-group">
+            <label>Payment Mode</label>
+            <select id="feeMode"><option>Cash</option><option>UPI / PhonePe / GPay</option><option>Bank Transfer / NEFT</option><option>Cheque / DD</option></select>
+          </div>
+          <div class="form-group">
+            <label>Receipt No</label>
+            <input type="text" id="feeReceiptNo">
+          </div>
+          <div class="form-group full-width">
+            <label>Remarks</label>
+            <input type="text" id="feeRemarks" placeholder="Optional note / transaction ID">
+          </div>
+        </div>
+        <div class="btn-group" style="margin-top:14px;">
+          <button class="btn btn-success" onclick="saveFeePayment()">💰 Save Fee & Generate Receipt</button>
+          <button class="btn btn-outline" onclick="resetFeeForm()">Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Selected Student Fee Breakdown (Current Term + Carry Forward)</h3>
+        <div id="studentFeeBreakdown" style="font-size:13px; color:var(--muted);">
+          Select a student to see live College Fee, Hostel Fee, Uniform Fee, and Previous Carry-Forward Balance.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>
+        <span>All Fee Receipts Ledger (Admin Edit / Delete / Print)</span>
+        <input type="text" id="receiptSearch" placeholder="Search receipt or student..." oninput="renderReceiptsTable()" style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;">
+      </h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Receipt No</th><th>Date</th><th>Student</th><th>Term</th><th>Section</th><th>Fee Head</th><th>Mode</th><th>Amount</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="receiptsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4B. REPORTS & DOWNLOADS CENTER -->
+  <section id="sec-reports" class="section">
+    <div class="card">
+      <h3>
+        <span>📈 All Reports & Excel / PDF Download Center</span>
+        <button class="btn btn-success btn-sm" onclick="downloadAllReportsBundle()">⬇ Download All Reports (Excel/CSV)</button>
+      </h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+        Filter lagakar koi bhi report <b>Excel (.csv)</b> me download karein ya seedhe <b>A4 Print / Save as PDF</b> karein.
+      </p>
+
+      <div class="form-grid" style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid var(--border); margin-bottom:16px;">
+        <div class="form-group">
+          <label>Course Filter</label>
+          <select id="repCourseFilter" onchange="renderReportPreview()">
+            <option value="">All Courses</option>
+            <option value="LLB 3 Year">LLB 3 Year</option>
+            <option value="LLB 5 Year">LLB 5 Year</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Student Type</label>
+          <select id="repTypeFilter" onchange="renderReportPreview()">
+            <option value="">All Types</option>
+            <option value="Hosteller">Hosteller</option>
+            <option value="Day Scholar">Day Scholar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fee Section (For Receipts)</label>
+          <select id="repSectionFilter" onchange="renderReportPreview()">
+            <option value="">All Sections</option>
+            <option value="College Fee">College Fee</option>
+            <option value="Hostel Fee">Hostel Fee</option>
+            <option value="Uniform Fee">Uniform Fee</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>From Date (Receipts)</label>
+          <input type="date" id="repFromDate" onchange="renderReportPreview()">
+        </div>
+        <div class="form-group">
+          <label>To Date (Receipts)</label>
+          <input type="date" id="repToDate" onchange="renderReportPreview()">
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="fee-box">
+          <h4><span>1. All Students Master Report</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Admission, Course, Term, Hosteller/Day Scholar, Mobile, Total Fee, Paid & Due.</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('students')">⬇ Excel (.csv)</button>
+            <button class="btn btn-primary btn-sm" onclick="printReportA4('students')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('students')">👁 Preview</button>
+          </div>
+        </div>
+
+        <div class="fee-box">
+          <h4><span>2. Fee Collection Register</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Date-wise, Section-wise (College/Hostel/Uniform) & Payment Mode collection list.</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('receipts')">⬇ Excel (.csv)</button>
+            <button class="btn btn-primary btn-sm" onclick="printReportA4('receipts')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('receipts')">👁 Preview</button>
+          </div>
+        </div>
+
+        <div class="fee-box" style="border-color:#fecaca; background:#fef2f2;">
+          <h4><span>3. Pending Fee Dues / Defaulters</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Sirf un students ki list jinki fees baki hai (College, Hostel, Uniform & Prev Bal).</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('dues')">⬇ Excel (.csv)</button>
+            <button class="btn btn-danger btn-sm" onclick="printReportA4('dues')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('dues')">👁 Preview</button>
+          </div>
+        </div>
+
+        <div class="fee-box hostel">
+          <h4><span>4. Hosteller & Day Scholar List</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Hostel aur Transport students ka separate record aur unka fee status.</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('hostel_day')">⬇ Excel (.csv)</button>
+            <button class="btn btn-teal btn-sm" onclick="printReportA4('hostel_day')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('hostel_day')">👁 Preview</button>
+          </div>
+        </div>
+
+        <div class="fee-box uniform">
+          <h4><span>5. Course-Wise Financial Summary</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">LLB 3 Year aur LLB 5 Year ka total strength, total fee, collection aur dues.</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('course_summary')">⬇ Excel (.csv)</button>
+            <button class="btn btn-warning btn-sm" onclick="printReportA4('course_summary')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('course_summary')">👁 Preview</button>
+          </div>
+        </div>
+
+        <div class="fee-box" style="border-color:#ddd6fe; background:#f5f3ff;">
+          <h4><span>6. Notices & Letters Register</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Ab tak jari kiye gaye sabhi college notices aur letters ka register.</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('notices')">⬇ Excel (.csv)</button>
+            <button class="btn btn-purple btn-sm" onclick="printReportA4('notices')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('notices')">👁 Preview</button>
+          </div>
+        </div>
+
+        <div class="fee-box" style="border-color:#bae6fd; background:#f0f9ff;">
+          <h4><span>7. Gate Pass Register (College/Hostel)</span></h4>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">Ab tak jari kiye gaye sabhi College aur Hostel Gate Passes ka complete record.</p>
+          <div class="btn-group">
+            <button class="btn btn-success btn-sm" onclick="downloadReportCSV('gatepasses')">⬇ Excel (.csv)</button>
+            <button class="btn btn-primary btn-sm" onclick="printReportA4('gatepasses')">🖨️ Print / PDF</button>
+            <button class="btn btn-outline btn-sm" onclick="selectPreviewReport('gatepasses')">👁 Preview</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>
+        <span id="reportPreviewTitle">Live Report Preview: All Students Master Report</span>
+        <div class="btn-group">
+          <button class="btn btn-success btn-sm" onclick="downloadReportCSV(activePreviewReport)">⬇ Download This Report (Excel)</button>
+          <button class="btn btn-primary btn-sm" onclick="printReportA4(activePreviewReport)">🖨️ Print / Save PDF</button>
+        </div>
+      </h3>
+      <div class="table-wrap" id="reportPreviewContainer"></div>
+    </div>
+  </section>
+
+  <!-- 5. PROMOTION / PASSOUT & BALANCE TRANSFER -->
+  <section id="sec-promotion" class="section">
+    <div class="card">
+      <h3>🚀 Semester / Year Promotion & Automatic Balance Fee Carry-Forward</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">
+        Jab student semester ya year passout kare, yahan se 1 click me uska data <b>Next Semester / Next Year</b> me transfer kar dein. Agar pichhle term ki koi <b>Balance Fee</b> bachi hogi to wo apne aap agle semester/year me <b>Previous Balance (Carry Forward)</b> ke roop me jud jayegi, aur purana record safely History me save rahega!
+      </p>
+
+      <div class="form-grid" style="background:#f8fafc; padding:14px; border-radius:8px; border:1px solid var(--border); margin-bottom:14px;">
+        <div class="form-group">
+          <label>Filter by Course</label>
+          <select id="promoCourseFilter" onchange="renderPromotionTable()">
+            <option value="">All Courses</option>
+            <option value="LLB 3 Year">LLB 3 Year</option>
+            <option value="LLB 5 Year">LLB 5 Year</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Filter by Current Year / Sem</label>
+          <select id="promoTermFilter" onchange="onPromoTermFilterChange()">
+            <option value="">All Active Terms</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+            <option value="5th Year">5th Year</option>
+            <option value="1st Semester">1st Semester</option>
+            <option value="2nd Semester">2nd Semester</option>
+            <option value="3rd Semester">3rd Semester</option>
+            <option value="4th Semester">4th Semester</option>
+            <option value="5th Semester">5th Semester</option>
+            <option value="6th Semester">6th Semester</option>
+            <option value="7th Semester">7th Semester</option>
+            <option value="8th Semester">8th Semester</option>
+            <option value="9th Semester">9th Semester</option>
+            <option value="10th Semester">10th Semester</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Promote To (Next Term / Passout) *</label>
+          <select id="promoTargetTerm">
+            <option value="AUTO">✨ Auto-Next Term (e.g. 1st → 2nd)</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+            <option value="2nd Semester">2nd Semester</option>
+            <option value="3rd Semester">3rd Semester</option>
+            <option value="4th Semester">4th Semester</option>
+            <option value="5th Semester">5th Semester</option>
+            <option value="6th Semester">6th Semester</option>
+            <option value="7th Semester">7th Semester</option>
+            <option value="8th Semester">8th Semester</option>
+            <option value="9th Semester">9th Semester</option>
+            <option value="10th Semester">10th Semester</option>
+            <option value="Passed Out">🎓 Mark as Course Passed Out (Alumni)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>New Session / Academic Year</label>
+          <input type="text" id="promoNewSession" value="2027-28" placeholder="e.g. 2027-28">
+        </div>
+        <div class="form-group full-width" style="flex-direction:row; gap:20px; flex-wrap:wrap; align-items:center; margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;">
+            <input type="checkbox" id="promoCarryBalance" checked>
+            <b>Auto Carry-Forward Unpaid Balance Fee</b>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;">
+            <input type="checkbox" id="promoApplyNextFee" checked>
+            <b>Auto-Assign Next Term Fee (Course + Hosteller/Day Scholar)</b>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;">
+            <input type="checkbox" id="promoSkipOneTime" checked>
+            <b>Skip One-Time Fees (Admission, Reg, Caution, Uniform) for Next Term</b>
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-bottom:12px;">
+        <button class="btn btn-purple" onclick="promoteSelectedStudents()">🚀 Promote Selected Students & Transfer Balance</button>
+        <button class="btn btn-outline btn-sm" onclick="toggleAllPromoChecks(true)">Select All</button>
+        <button class="btn btn-outline btn-sm" onclick="toggleAllPromoChecks(false)">Unselect All</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:34px;"><input type="checkbox" id="promoSelectAll" onchange="toggleAllPromoChecks(this.checked)"></th>
+              <th>Adm No</th><th>Student Name</th><th>Course & Type</th><th>Current Term</th>
+              <th>Next Term Preview</th><th>Current Due (Will Carry Forward)</th><th>Quick Action</th>
+            </tr>
+          </thead>
+          <tbody id="promotionTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 5B. FULLY EDITABLE COLLEGE & HOSTEL GATE PASS -->
+  <section id="sec-gatepass" class="section">
+    <div class="grid-2">
+      <div class="card">
+        <h3>
+          <span id="gpEditorHeading">🚪 College & Hostel Gate Pass (100% Editable)</span>
+          <button type="button" class="btn btn-outline btn-sm" onclick="resetGatePassForm()">+ New Pass</button>
+        </h3>
+        <input type="hidden" id="gpEditId">
+
+        <div class="form-grid" style="margin-bottom:12px;">
+          <div class="form-group">
+            <label>Gate Pass Type *</label>
+            <select id="gpType" onchange="onGatePassTypeChange()" style="font-weight:700; border:2px solid var(--primary);">
+              <option value="Hostel Gate Pass">🏠 Hostel Gate Pass</option>
+              <option value="College Gate Pass">🏫 College Gate Pass</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Auto-Fill Student (Optional)</label>
+            <select id="gpStudentSelect" onchange="autoFillGatePassStudent()"></select>
+          </div>
+          <div class="form-group">
+            <label>Pass Title (Editable)</label>
+            <input type="text" id="gpTitle" value="HOSTEL GATE PASS" oninput="renderGatePassLivePreview()">
+          </div>
+          <div class="form-group">
+            <label>Pass No / Ref No</label>
+            <input type="text" id="gpPassNo" placeholder="HGP/2026/001" oninput="renderGatePassLivePreview()">
+          </div>
+          <div class="form-group">
+            <label>Issue Date</label>
+            <input type="date" id="gpDate" oninput="renderGatePassLivePreview()">
+          </div>
+          <div class="form-group">
+            <label>Print Copies on 1 A4 Page</label>
+            <select id="gpCopies" onchange="renderGatePassLivePreview()">
+              <option value="2">2 Copies (Student + Gate/Office Copy)</option>
+              <option value="1">1 Full Page Copy</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Header Top Address (Upar Address — Editable)</label>
+            <input type="text" id="gpHeaderAddress" placeholder="Optional custom 1-line address (khaali chhodein to Settings wala address aayega)" oninput="renderGatePassLivePreview()">
+          </div>
+          <div class="form-group full-width" style="flex-direction:row; gap:14px; flex-wrap:wrap; align-items:center;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="gpShowHeader" checked onchange="renderGatePassLivePreview()"> Show College Header
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="gpBothLogos" checked onchange="renderGatePassLivePreview()"> Logo Both Sides (Left & Right)
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="gpShowPhoto" checked onchange="renderGatePassLivePreview()"> Show Student Photo
+            </label>
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;">
+              🖼 Left Logo
+              <input type="file" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+            </label>
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;">
+              🖼 Right Logo
+              <input type="file" accept="image/*" style="display:none;" onchange="handleRightLogoUpload(event)">
+            </label>
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;color:var(--primary);">
+              📷 Student Photo
+              <input type="file" accept="image/*" style="display:none;" onchange="handleGatePassPhotoUpload(event)">
+            </label>
+          </div>
+        </div>
+
+        <!-- EDITABLE DYNAMIC FIELDS -->
+        <div class="fee-box" style="margin-bottom:12px;">
+          <h4>
+            <span>Editable Fields (Koi bhi Field Add / Edit / Remove karein)</span>
+            <button type="button" class="btn btn-teal btn-sm" onclick="addGatePassField()">+ Add Field</button>
+          </h4>
+          <div id="gpFieldsContainer"></div>
+        </div>
+
+        <!-- EDITABLE RULES / NOTE -->
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Instructions / Rules / Note (Khaali chhod dein to print me nahi aayega)</label>
+          <textarea id="gpNote" rows="2" oninput="renderGatePassLivePreview()" placeholder="e.g. Student must report back on time. Submit Gate Copy at Main Gate."></textarea>
+        </div>
+
+        <!-- EDITABLE SIGNATURES -->
+        <div class="fee-box" style="margin-bottom:14px;">
+          <h4>
+            <span>Signature Boxes (Edit / Add / Remove)</span>
+            <button type="button" class="btn btn-outline btn-sm" onclick="addGatePassSignature()">+ Add Signature</button>
+          </h4>
+          <div id="gpSignaturesContainer"></div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" onclick="saveAndPrintGatePass(true)">🖨️ Save & Print Gate Pass</button>
+          <button type="button" class="btn btn-success" onclick="saveAndPrintGatePass(false)">💾 Save to Register</button>
+          <button type="button" class="btn btn-teal btn-sm" onclick="saveGatePassAsDefaultTemplate()">⭐ Save Format as Default</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="resetGatePassTemplateToFactory()">↺ Reset Format</button>
+        </div>
+      </div>
+
+      <!-- LIVE PREVIEW + REGISTER -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div class="card" style="margin-bottom:0;">
+          <h3>👁 Live Gate Pass Preview</h3>
+          <div id="gpLivePreview" class="gp-preview-box"></div>
+        </div>
+
+        <div class="card" style="margin-bottom:0;">
+          <h3>
+            <span>Issued Gate Pass Register</span>
+            <input type="text" id="gpSearch" placeholder="Search pass no, student..." oninput="renderGatePassTable()" style="padding:5px 9px;border:1px solid var(--border);border-radius:6px;font-size:12px;">
+          </h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Pass No / Date</th><th>Type</th><th>Student / Details</th><th>Actions</th></tr></thead>
+              <tbody id="gpTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CERTIFICATES & GATE PASSES -->
+  <section id="sec-certificates" class="section">
+    <div class="card">
+      <h3>
+        <span>Printable Documents, Certificates & TC Center</span>
+        <button type="button" class="btn btn-teal btn-sm" onclick="showSection('gatepass')">🚪 Open Full Editable Gate Pass Designer</button>
+      </h3>
+      <div class="form-grid" style="margin-bottom:14px;">
+        <div class="form-group">
+          <label>Select Student *</label>
+          <select id="certStudentSelect"></select>
+        </div>
+        <div class="form-group">
+          <label>Document Type *</label>
+          <select id="certTypeSelect" onchange="toggleCertExtraFields()">
+            <option value="admission">Admission Form (Full)</option>
+            <option value="regslip">Registration Slip</option>
+            <option value="bonafide">Bonafide Certificate</option>
+            <option value="tc">Transfer Certificate (TC)</option>
+            <option value="hostel_pass">Hostel Gate Pass</option>
+            <option value="college_pass">College Gate Pass</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Issue Date</label>
+          <input type="date" id="certDate">
+        </div>
+        <div class="form-group">
+          <label>Print Logo Option</label>
+          <select id="certLogoMode">
+            <option value="auto">🔄 Auto (Follow Topbar Switch)</option>
+            <option value="both">2️⃣ Both Sides Logo (Left & Right)</option>
+            <option value="one">1️⃣ 1 Side Logo Only (Left)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="certExtraFields" class="form-grid" style="background:#f8fafc; padding:12px; border-radius:8px; border:1px solid var(--border); margin-bottom:14px;"></div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="printSelectedCertificate()">🖨️ Print A4 Document</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LETTERHEAD, APPLICATIONS & NOTICES -->
+  <section id="sec-letterhead" class="section">
+    <div class="grid-2">
+      <div class="card">
+        <h3>Official College Letterhead / Notice / Application Maker</h3>
+        <input type="hidden" id="editNoticeId">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Quick Template</label>
+            <select id="noticeTemplate" onchange="applyNoticeTemplate()">
+              <option value="">-- Custom Blank Letterhead --</option>
+              <option value="fee_notice">Fee Submission Notice</option>
+              <option value="holiday">Holiday Notice</option>
+              <option value="exam">Examination Schedule Notice</option>
+              <option value="hostel_rules">Hostel Discipline Notice</option>
+              <option value="general_app">Official Application / Forwarding Letter</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ref. No.</label>
+            <input type="text" id="noticeRef" placeholder="ALC/2026/N-01">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="noticeDate">
+          </div>
+          <div class="form-group">
+            <label>Document Title</label>
+            <input type="text" id="noticeTitle" value="NOTICE" placeholder="NOTICE / OFFICE ORDER / APPLICATION">
+          </div>
+          <div class="form-group">
+            <label>Letterhead Logo Option</label>
+            <select id="noticeLogoMode">
+              <option value="auto">🔄 Auto (Follow Topbar Switch)</option>
+              <option value="one">1️⃣ 1 Side Logo Only (Left)</option>
+              <option value="both">2️⃣ Both Sides Logo (Left & Right)</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Subject / To</label>
+            <input type="text" id="noticeSubject" placeholder="Subject line or Recipient">
+          </div>
+          <div class="form-group full-width" id="holidayCalendarBox" style="display:none; background:#f0fdf4; border:1px solid #86efac; padding:12px; border-radius:8px;">
+            <div style="font-size:12.5px; font-weight:700; color:#166534; margin-bottom:8px;">📅 Holiday Calendar Auto-Generator (Calendar me date choose karte hi notice ban jayega)</div>
+            <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));">
+              <div class="form-group">
+                <label>Holiday Start Date (Calendar)</label>
+                <input type="date" id="holStartDate" onchange="syncHolidayNoticeFromCalendar()">
+              </div>
+              <div class="form-group">
+                <label>Holiday End Date (Optional)</label>
+                <input type="date" id="holEndDate" onchange="syncHolidayNoticeFromCalendar()">
+              </div>
+              <div class="form-group">
+                <label>Holiday / Occasion Name</label>
+                <input type="text" id="holOccasion" placeholder="e.g. Diwali, Holi, Sunday" oninput="syncHolidayNoticeFromCalendar()">
+              </div>
+              <div class="form-group">
+                <label>Reopen / Classes Resume Date</label>
+                <input type="date" id="holResumeDate" onchange="syncHolidayNoticeFromCalendar()">
+              </div>
+            </div>
+          </div>
+          <div class="form-group full-width">
+            <label>Body Content</label>
+            <textarea id="noticeBody" rows="8" placeholder="Write notice, circular, or application content here..."></textarea>
+          </div>
+        </div>
+        <div class="btn-group" style="margin-top:12px;">
+          <button class="btn btn-primary" onclick="saveAndPrintNotice(true)">🖨️ Save & Print Letterhead</button>
+          <button class="btn btn-teal" onclick="saveAndPrintNotice(false)">💾 Save Only</button>
+          <button class="btn btn-outline" onclick="resetNoticeForm()">Clear</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Saved Notices & Letters (Edit / Delete / Reprint)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Ref / Date</th><th>Title / Subject</th><th>Actions</th></tr></thead>
+            <tbody id="noticesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. WHATSAPP & SMS HUB -->
+  <section id="sec-comms" class="section">
+    <div class="card">
+      <h3>WhatsApp & SMS Communication Hub</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Select Student</label>
+          <select id="commStudentSelect" onchange="buildCommMessage()"></select>
+        </div>
+        <div class="form-group">
+          <label>Message Type</label>
+          <select id="commType" onchange="buildCommMessage()">
+            <option value="due">Fee Due Reminder (Incl. Previous Balance)</option>
+            <option value="welcome">Admission Confirmation</option>
+            <option value="promoted">Semester / Year Promotion Notice</option>
+            <option value="gatepass">Gate Pass Parent Alert</option>
+            <option value="custom">Custom Notice / Message</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Send To Number</label>
+          <select id="commTarget" onchange="buildCommMessage()">
+            <option value="student">Student Mobile</option>
+            <option value="parent">Parent / Guardian Mobile</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label>Message Preview (Editable)</label>
+          <textarea id="commText" rows="6"></textarea>
+        </div>
+      </div>
+      <div class="btn-group" style="margin-top:12px;">
+        <button class="btn btn-success" onclick="sendWhatsApp()">💬 Send via WhatsApp</button>
+        <button class="btn btn-primary" onclick="sendSMS()">📩 Send via SMS</button>
+        <button class="btn btn-outline" onclick="copyCommText()">📋 Copy Text</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. SETTINGS & COURSE FEE SETUP -->
+  <section id="sec-settings" class="section">
+    <div class="grid-2">
+      <div class="card">
+        <h3>College Profile & Printable Header Customization</h3>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label>College Name (Letterhead par 2 line ke liye Enter dabayein)</label>
+            <textarea id="setCollegeName" rows="2" placeholder="AVADH LAW COLLEGE"></textarea>
+          </div>
+          <div class="form-group">
+            <label>College Name Font Size on Prints</label>
+            <select id="setCollegeTitleSize">
+              <option value="22">22 px</option>
+              <option value="24">24 px</option>
+              <option value="26" selected>26 px (Recommended)</option>
+              <option value="28">28 px</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>College Name Color on Prints</label>
+            <select id="setCollegeTitleColor">
+              <option value="#dc2626" selected>Red (Default)</option>
+              <option value="#b91c1c">Dark Red</option>
+              <option value="#0f4c81">Navy Blue</option>
+              <option value="#000000">Black</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Subtitle / Location</label>
+            <input type="text" id="setCollegeSub">
+          </div>
+          <div class="form-group full-width">
+            <label>Full Address</label>
+            <input type="text" id="setAddress">
+          </div>
+          <div class="form-group">
+            <label>Contact Phone</label>
+            <input type="text" id="setPhone">
+          </div>
+          <div class="form-group">
+            <label>Email / Website</label>
+            <input type="text" id="setEmail">
+          </div>
+          <div class="form-group">
+            <label>Affiliation / Reg. Code</label>
+            <input type="text" id="setAffiliation">
+          </div>
+          <div class="form-group">
+            <label>Principal / Director Name</label>
+            <input type="text" id="setPrincipal">
+          </div>
+          <div class="form-group">
+            <label>Upload Left / Primary College Logo</label>
+            <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
+          </div>
+          <div class="form-group">
+            <label>Upload Right Side Logo (Optional — Auto-mirrors Left Logo if blank)</label>
+            <input type="file" accept="image/*" onchange="handleRightLogoUpload(event)">
+          </div>
+          <div class="form-group full-width" style="flex-direction:row; gap:16px; align-items:center; flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12.5px;">
+              <input type="checkbox" id="setBothSideLogo" checked>
+              <b>Show Logo on Both Sides (Left & Right) on Letterhead, Gate Pass & All Prints</b>
+            </label>
+            <button type="button" class="btn btn-outline btn-sm" onclick="clearRightLogo()">Clear Right Logo</button>
+          </div>
+          <div class="form-group full-width" style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+              <label style="font-size:13px;color:var(--primary-dark);">✍️ Stamps & Signatures Upload (Separate Sections)</label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12.5px;">
+                <input type="checkbox" id="setShowStampOnPrint" checked onchange="syncStampSettingLive()">
+                <b>Auto-Print Uploaded Stamps on Documents</b>
+              </label>
+            </div>
+            <div class="grid-2" style="margin-bottom:0;gap:12px;">
+              <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+                <label style="color:var(--primary-dark);">1. Principal Signature / Stamp</label>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px;">
+                  <input type="file" accept="image/*" onchange="handlePrincipalStampUpload(event)" style="max-width:100%;">
+                  <div id="setPrincipalStampPreview" style="width:72px;height:64px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;background:#f8fafc;overflow:hidden;font-size:10px;color:var(--muted);text-align:center;">No Principal Sign/Stamp</div>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="clearPrincipalStamp()">Remove</button>
+                </div>
+              </div>
+              <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+                <label style="color:var(--primary-dark);">2. Office Stamp (Office Seal)</label>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px;">
+                  <input type="file" accept="image/*" onchange="handleOfficeStampUpload(event)" style="max-width:100%;">
+                  <div id="setOfficeStampPreview" style="width:72px;height:64px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;background:#f8fafc;overflow:hidden;font-size:10px;color:var(--muted);text-align:center;">No Office Stamp</div>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="clearOfficeStamp()">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group" style="margin-top:12px;">
+          <button class="btn btn-primary" onclick="saveSettings()">💾 Save College Settings</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Course-Wise Separate Fee Structure (LLB 3 Year & LLB 5 Year)</h3>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Select Course to Edit Fee Structure *</label>
+          <select id="setCourseSelect" onchange="loadCourseFeeEditor()" style="font-weight:700; border:2px solid var(--accent);">
+            <option value="LLB 3 Year">LLB (3 Year)</option>
+            <option value="LLB 5 Year">BA LLB (5 Year Integrated)</option>
+          </select>
+        </div>
+        <div class="form-grid" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="form-group"><label>Reg Fee</label><input type="number" id="def_regFee"></div>
+          <div class="form-group"><label>Caution Money</label><input type="number" id="def_cautionMoney"></div>
+          <div class="form-group"><label>Tuition Fee</label><input type="number" id="def_tuitionFee"></div>
+          <div class="form-group"><label>Transport Fee (Day Scholar)</label><input type="number" id="def_transportFee"></div>
+          <div class="form-group"><label>Moot Court / Legal Aid Fee</label><input type="number" id="def_clinicalFee"></div>
+          <div class="form-group"><label>Development Fee</label><input type="number" id="def_devFee"></div>
+          <div class="form-group"><label>Misc Fee</label><input type="number" id="def_miscFee"></div>
+          <div class="form-group"><label>Admission Fee</label><input type="number" id="def_admFee"></div>
+          <div class="form-group"><label>Lib Fee</label><input type="number" id="def_libFee"></div>
+          <div class="form-group"><label>Hostel Fee (Hosteller)</label><input type="number" id="def_hostelFee"></div>
+          <div class="form-group"><label>Uniform + Kit</label><input type="number" id="def_uniformFee"></div>
+        </div>
+        <div style="margin-top:10px; font-size:12px; color:var(--muted);" id="courseFeeSummaryPreview"></div>
+        <button class="btn btn-teal" style="margin-top:10px;" onclick="saveCourseFeeStructure()">💾 Save Selected Course Fee Structure</button>
+      </div>
+    </div>
+
+
+    <div class="card admin-only">
+      <h3>🔐 Login & Password Management (Admin Only)</h3>
+      <p style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">
+        <b>Admin</b> has full control (Edit, Delete, Settings, Fee Setup, Promotion, Backup/Restore).
+        <b>Employee</b> can do daily work (New Admission, View Students/Docs, Collect Fees & Print Receipts, Certificates, Gate Passes, Notices, WhatsApp/SMS) but cannot Delete records or change Settings/Fees.
+      </p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>New Admin Password</label>
+          <input type="text" id="setAdminPass" placeholder="Default: admin123">
+        </div>
+        <div class="form-group">
+          <label>New Employee / Staff Password</label>
+          <input type="text" id="setEmpPass" placeholder="Default: staff123">
+        </div>
+      </div>
+      <div class="btn-group" style="margin-top:12px;">
+        <button class="btn btn-primary" onclick="savePasswords()">🔑 Update Passwords</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔄 Automatic Backup, Restore & Easy Software Update</h3>
+      <div style="background:#f0fdf4; border:1px solid #86efac; padding:12px 14px; border-radius:8px; margin-bottom:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <b style="color:#166534; font-size:13.5px;">Automatic Backup System</b>
+            <div id="autoBackupStatusText" style="font-size:12px; color:#15803d; margin-top:3px;">Daily Auto-Backup is ON.</div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-teal btn-sm" onclick="linkAutoBackupFile()">📂 Link Live Auto-Backup File (D: / Pen Drive)</button>
+            <button class="btn btn-outline btn-sm" onclick="toggleDailyAutoBackup()" id="btnToggleDailyBackup">Pause Daily Auto-Download</button>
+          </div>
+        </div>
+        <p style="font-size:11.5px; color:#334155; margin-top:8px;">
+          <b>1) Live File Auto-Save:</b> "Link Live Auto-Backup File" par click karke ek baar koi file choose kar lein (jaise <code>D:\Avadh_AutoBackup.json</code>). Uske baad har entry save hote hi us file me <b>apne aap backup update</b> hota rahega!<br>
+          <b>2) Daily Auto-Download:</b> Har roz pehli entry save hote hi Downloads folder me aaj ki date ka backup <b>apne aap download</b> ho jayega.
+        </p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-success" onclick="exportBackup()">⬇ Download Full JSON Backup Now</button>
+        <label class="btn btn-primary" style="cursor:pointer;">
+          ⬆ Restore / Import JSON Backup
+          <input type="file" accept=".json" style="display:none;" onchange="importBackup(event)">
+        </label>
+        <button class="btn btn-danger" onclick="factoryReset()">⚠ Clear All Data</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- DOCUMENTS VIEWER MODAL -->
+<div class="modal-bg" id="docsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="docsModalTitle">Student Documents</h3>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('docsModal')">✕ Close</button>
+    </div>
+    <div id="docsModalBody"></div>
+  </div>
+</div>
+
+<!-- PROMOTION HISTORY MODAL -->
+<div class="modal-bg" id="historyModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="historyModalTitle">Academic & Balance Carry-Forward History</h3>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('historyModal')">✕ Close</button>
+    </div>
+    <div id="historyModalBody"></div>
+  </div>
+</div>
+
+<!-- PRINTABLE A4 CONTAINER -->
+<div id="printArea"></div>
+
+<div id="toast"></div>
+
+<script>
+// ================= STATE & STORAGE =================
+const DB_KEY = 'AVADH_LAW_COLLEGE_ERP_DB_V1'; // Same key so old v2 data upgrades seamlessly!
+
+const COLLEGE_HEADS = [
+  { key: 'regFee', label: 'Reg Fee', oneTime: true },
+  { key: 'cautionMoney', label: 'Caution Money', oneTime: true },
+  { key: 'tuitionFee', label: 'Tuition Fee', oneTime: false },
+  { key: 'transportFee', label: 'Transportation Fee', oneTime: false },
+  { key: 'clinicalFee', label: 'Moot Court / Legal Aid Fee', oneTime: false },
+  { key: 'devFee', label: 'Development Fee', oneTime: false },
+  { key: 'miscFee', label: 'Miscellaneous Fee', oneTime: false },
+  { key: 'admFee', label: 'Admission Fee', oneTime: true },
+  { key: 'libFee', label: 'Lib Fee', oneTime: false }
+];
+const HOSTEL_HEADS = [{ key: 'hostelFee', label: 'Hostel', oneTime: false }];
+const UNIFORM_HEADS = [{ key: 'uniformFee', label: 'Uniform + Kit', oneTime: true }];
+
+const DEFAULT_COURSE_FEES = {
+  'LLB 3 Year': {
+    regFee: 2000, cautionMoney: 3000, tuitionFee: 32000, transportFee: 12000,
+    clinicalFee: 3000, devFee: 2500, miscFee: 1500, admFee: 3500, libFee: 2000,
+    hostelFee: 45000, uniformFee: 3500
+  },
+  'LLB 5 Year': {
+    regFee: 2500, cautionMoney: 5000, tuitionFee: 42000, transportFee: 12000,
+    clinicalFee: 4000, devFee: 3000, miscFee: 2000, admFee: 5000, libFee: 2500,
+    hostelFee: 48000, uniformFee: 4000
+  }
+};
+
+const NEXT_TERM_MAP = {
+  '1st Year': '2nd Year',
+  '2nd Year': '3rd Year',
+  '3rd Year': '4th Year',
+  '4th Year': '5th Year',
+  '5th Year': 'Passed Out',
+  '1st Semester': '2nd Semester',
+  '2nd Semester': '3rd Semester',
+  '3rd Semester': '4th Semester',
+  '4th Semester': '5th Semester',
+  '5th Semester': '6th Semester',
+  '6th Semester': '7th Semester',
+  '7th Semester': '8th Semester',
+  '8th Semester': '9th Semester',
+  '9th Semester': '10th Semester',
+  '10th Semester': 'Passed Out'
+};
+
+
+const DEFAULT_GATE_PASS_TEMPLATES = {
+  'Hostel Gate Pass': {
+    title: 'HOSTEL GATE PASS',
+    showHeader: true,
+    showPhoto: true,
+    copies: '2',
+    note: 'Note: Student must return to hostel on or before expected return time. Submit Gate Copy at Main Security Gate.',
+    fields: [
+      { label: 'Student Name', value: '', autoKey: 'name' },
+      { label: 'Admission No', value: '', autoKey: 'admNo' },
+      { label: "Father's Name", value: '', autoKey: 'father' },
+      { label: 'Course / Year-Sem', value: '', autoKey: 'courseTerm' },
+      { label: 'Hostel Room / Bed No', value: '', autoKey: '' },
+      { label: 'Student Mobile', value: '', autoKey: 'phone' },
+      { label: 'Parent / Guardian Mobile', value: '', autoKey: 'parentPhone' },
+      { label: 'Out Date & Time', value: '', autoKey: 'outNow' },
+      { label: 'Expected Return Date & Time', value: '', autoKey: 'retNow' },
+      { label: 'Purpose / Reason', value: 'Going Home / Personal', autoKey: '' },
+      { label: 'Accompanied By', value: 'Parent / Self', autoKey: '' },
+      { label: 'Parent Verification (Phone)', value: 'Verified', autoKey: '' }
+    ],
+    signatures: ['Student Signature', 'Hostel Warden', 'Security Gate / Principal']
+  },
+  'College Gate Pass': {
+    title: 'COLLEGE GATE PASS',
+    showHeader: true,
+    showPhoto: true,
+    copies: '2',
+    note: 'Note: No student is allowed to leave college campus during working hours without valid approved College Gate Pass.',
+    fields: [
+      { label: 'Student Name', value: '', autoKey: 'name' },
+      { label: 'Admission No', value: '', autoKey: 'admNo' },
+      { label: "Father's Name", value: '', autoKey: 'father' },
+      { label: 'Course / Year-Sem', value: '', autoKey: 'courseTerm' },
+      { label: 'Student Type', value: '', autoKey: 'type' },
+      { label: 'Student Mobile', value: '', autoKey: 'phone' },
+      { label: 'Parent Mobile', value: '', autoKey: 'parentPhone' },
+      { label: 'Leaving Date & Time', value: '', autoKey: 'outNow' },
+      { label: 'Reason for Leaving Campus', value: 'Medical / Urgent Work / Home', autoKey: '' },
+      { label: 'Approved By (Faculty / HOD)', value: '', autoKey: '' }
+    ],
+    signatures: ['Student Signature', 'Class Coordinator / HOD', 'Principal / Security Gate']
+  }
+};
+
+const DEFAULT_DB = {
+  settings: {
+    collegeName: 'AVADH LAW COLLEGE',
+    collegeTitleSize: 26,
+    collegeTitleColor: '#dc2626',
+    collegeSub: 'BARABANKI, UTTAR PRADESH',
+    address: 'Barabanki, Uttar Pradesh - 225001',
+    phone: '+91-XXXXXXXXXX',
+    email: 'info@avadhlawbarabanki.edu.in',
+    affiliation: 'Approved by Bar Council of India (BCI) & Affiliated to Dr. Rammanohar Lohia Avadh University',
+    principal: 'Principal / Director',
+    logo: '',
+    logoRight: '',
+    bothSideLogo: true,
+    principalStamp: '',
+    officeStamp: '',
+    showStampOnPrint: true
+  },
+  auth: {
+    adminPass: 'admin123',
+    employeePass: 'staff123'
+  },
+  courseFees: JSON.parse(JSON.stringify(DEFAULT_COURSE_FEES)),
+  students: [],
+  receipts: [],
+  notices: [],
+  gatePasses: [],
+  gatePassTemplates: JSON.parse(JSON.stringify(DEFAULT_GATE_PASS_TEMPLATES))
+};
+
+let db = loadDB();
+let tempPhoto = '';
+let tempDocs = [];
+
+function loadDB() {
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DB));
+    const parsed = JSON.parse(raw);
+    const mergedCourseFees = JSON.parse(JSON.stringify(DEFAULT_COURSE_FEES));
+    if (parsed.courseFees) {
+      Object.keys(parsed.courseFees).forEach(c => {
+        mergedCourseFees[c] = { ...(mergedCourseFees[c] || DEFAULT_COURSE_FEES['LLB 3 Year']), ...parsed.courseFees[c] };
+      });
+    }
+    const students = (parsed.students || []).map(s => ({
+      ...s,
+      currentTerm: s.currentTerm || (s.course === 'B.Sc. Nursing' ? '1st Semester' : '1st Year'),
+      status: s.status || 'Active',
+      carryForward: s.carryForward || { college: 0, hostel: 0, uniform: 0 },
+      promotionHistory: s.promotionHistory || []
+    }));
+    const receipts = (parsed.receipts || []).map(r => ({
+      ...r,
+      term: r.term || '1st Year'
+    }));
+    return {
+      settings: (() => {
+        const st = { ...DEFAULT_DB.settings, ...(parsed.settings || {}) };
+        const normName = (st.collegeName || '').replace(/\s+/g, ' ').trim().toUpperCase();
+        if (normName === 'AVADH LAW COLLEGE') {
+          st.collegeName = 'AVADH LAW COLLEGE';
+        }
+        if (!parsed.settings || !parsed.settings.collegeTitleSize || Number(parsed.settings.collegeTitleSize) === 23) {
+          st.collegeTitleSize = 26;
+        }
+        if (!parsed.settings || !parsed.settings.collegeTitleColor) {
+          st.collegeTitleColor = '#dc2626';
+        }
+        if (!st.officeStamp && st.stamp) st.officeStamp = st.stamp;
+        if (st.principalStamp === undefined) st.principalStamp = '';
+        if (st.officeStamp === undefined) st.officeStamp = '';
+        if (st.showStampOnPrint === undefined) st.showStampOnPrint = true;
+        return st;
+      })(),
+      auth: { ...DEFAULT_DB.auth, ...(parsed.auth || {}) },
+      courseFees: mergedCourseFees,
+      students,
+      receipts,
+      notices: parsed.notices || [],
+      gatePasses: parsed.gatePasses || [],
+      gatePassTemplates: {
+        'Hostel Gate Pass': { ...JSON.parse(JSON.stringify(DEFAULT_GATE_PASS_TEMPLATES['Hostel Gate Pass'])), ...((parsed.gatePassTemplates && parsed.gatePassTemplates['Hostel Gate Pass']) || {}) },
+        'College Gate Pass': { ...JSON.parse(JSON.stringify(DEFAULT_GATE_PASS_TEMPLATES['College Gate Pass'])), ...((parsed.gatePassTemplates && parsed.gatePassTemplates['College Gate Pass']) || {}) }
+      }
+    };
+  } catch (e) {
+    return JSON.parse(JSON.stringify(DEFAULT_DB));
+  }
+}
+
+function saveDB() {
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+    triggerAutoBackup();
+  } catch (e) {
+    alert('Storage limit reached! Please keep attached files compact or export a JSON backup.');
+  }
+}
+
+// ================= AUTOMATIC BACKUP ENGINE =================
+const AUTO_BACKUP_CFG_KEY = 'AVADH_LAW_ERP_AUTOBACKUP_CFG';
+let liveBackupFileHandle = null;
+
+function getAutoBackupCfg() {
+  try {
+    return JSON.parse(localStorage.getItem(AUTO_BACKUP_CFG_KEY)) || { dailyEnabled: true, lastDailyDate: '', lastBackupTime: '' };
+  } catch (e) {
+    return { dailyEnabled: true, lastDailyDate: '', lastBackupTime: '' };
+  }
+}
+
+function saveAutoBackupCfg(cfg) {
+  localStorage.setItem(AUTO_BACKUP_CFG_KEY, JSON.stringify(cfg));
+  updateAutoBackupUI();
+}
+
+function updateAutoBackupUI() {
+  const cfg = getAutoBackupCfg();
+  const badge = document.getElementById('autoBackupBadge');
+  const txt = document.getElementById('autoBackupStatusText');
+  const btn = document.getElementById('btnToggleDailyBackup');
+
+  if (liveBackupFileHandle) {
+    if (badge) { badge.textContent = '🔄 Live Auto-Backup: LINKED'; badge.className = 'badge badge-green'; }
+    if (txt) txt.innerHTML = `✅ <b>Live File Linked (${liveBackupFileHandle.name})</b> — Har save par apne aap backup update ho raha hai. ${cfg.lastBackupTime ? 'Last saved: ' + cfg.lastBackupTime : ''}`;
+  } else if (cfg.dailyEnabled) {
+    if (badge) { badge.textContent = '🔄 Daily Auto-Backup: ON'; badge.className = 'badge badge-green'; }
+    if (txt) txt.innerHTML = `✅ <b>Daily Auto-Download ON</b> — Rozana pehle save par Downloads me backup save hoga. ${cfg.lastDailyDate ? 'Last Auto-Backup: ' + cfg.lastDailyDate : ''}`;
+  } else {
+    if (badge) { badge.textContent = '⚠ Auto-Backup: PAUSED'; badge.className = 'badge badge-amber'; }
+    if (txt) txt.innerHTML = `⚠ Daily Auto-Download paused hai. Manual backup ya Live File link karein.`;
+  }
+  if (btn) btn.textContent = cfg.dailyEnabled ? 'Pause Daily Auto-Download' : 'Enable Daily Auto-Download';
+}
+
+async function linkAutoBackupFile() {
+  if (!window.showSaveFilePicker) {
+    alert('Aapke browser me Live File Link supported nahi hai. Daily Auto-Download automatically chalta rahega!');
+    return;
+  }
+  try {
+    liveBackupFileHandle = await window.showSaveFilePicker({
+      suggestedName: 'Avadh_Law_College_ERP_AutoBackup.json',
+      types: [{ description: 'JSON Backup File', accept: { 'application/json': ['.json'] } }]
+    });
+    await writeLiveBackupFile();
+    toast('✅ Live Auto-Backup file linked! Ab har change apne aap save hoga.');
+  } catch (err) {
+    if (err.name !== 'AbortError') toast('File link cancelled.');
+  }
+}
+
+async function writeLiveBackupFile() {
+  if (!liveBackupFileHandle) return;
+  try {
+    const writable = await liveBackupFileHandle.createWritable();
+    await writable.write(JSON.stringify(db, null, 2));
+    await writable.close();
+    const cfg = getAutoBackupCfg();
+    cfg.lastBackupTime = new Date().toLocaleTimeString('en-IN');
+    saveAutoBackupCfg(cfg);
+  } catch (e) {
+    console.warn('Live backup write failed:', e);
+  }
+}
+
+function toggleDailyAutoBackup() {
+  const cfg = getAutoBackupCfg();
+  cfg.dailyEnabled = !cfg.dailyEnabled;
+  saveAutoBackupCfg(cfg);
+  toast(cfg.dailyEnabled ? 'Daily Auto-Backup Enabled!' : 'Daily Auto-Backup Paused.');
+}
+
+function triggerAutoBackup() {
+  // 1. If a Live File is linked on D: / Pen Drive, silently write to it on every save
+  if (liveBackupFileHandle) {
+    writeLiveBackupFile();
+    return;
+  }
+  // 2. Otherwise, auto-download once per day on the first save of the day
+  const cfg = getAutoBackupCfg();
+  const today = todayISO();
+  if (cfg.dailyEnabled && cfg.lastDailyDate !== today && (db.students.length > 0 || db.receipts.length > 0)) {
+    cfg.lastDailyDate = today;
+    cfg.lastBackupTime = new Date().toLocaleTimeString('en-IN');
+    saveAutoBackupCfg(cfg);
+    const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `Avadh_Law_College_ERP_AutoBackup_${today}.json`;
+    a.click();
+    toast('🔄 Daily Auto-Backup saved to Downloads folder!');
+  }
+}
+
+function getCourseFeeTemplate(course) {
+  return db.courseFees[course] || db.courseFees['LLB 3 Year'] || DEFAULT_COURSE_FEES['LLB 3 Year'];
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.display = 'block';
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => el.style.display = 'none', 3200);
+}
+
+function todayISO() { return new Date().toISOString().split('T')[0]; }
+function fmtINR(n) { return '₹' + (Number(n) || 0).toLocaleString('en-IN'); }
+
+function getAutoNextTerm(st) {
+  if (st.course === 'LLB 3 Year' && (st.currentTerm === '3rd Year' || st.currentTerm === '6th Semester')) return 'Passed Out';
+  if (st.course === 'LLB 5 Year' && (st.currentTerm === '5th Year' || st.currentTerm === '10th Semester')) return 'Passed Out';
+  return NEXT_TERM_MAP[st.currentTerm] || 'Passed Out';
+}
+
+
+// ================= ROLE-BASED AUTH (ADMIN & EMPLOYEE) =================
+let selectedLoginRole = 'admin';
+let currentUserRole = null;
+
+function selectLoginRole(role) {
+  selectedLoginRole = role;
+  document.getElementById('tabRoleAdmin').classList.toggle('active', role === 'admin');
+  document.getElementById('tabRoleEmp').classList.toggle('active', role === 'employee');
+  document.getElementById('loginPassLabel').textContent = role === 'admin' ? 'Enter Admin Password' : 'Enter Employee / Staff Password';
+  document.getElementById('loginError').textContent = '';
+  document.getElementById('loginPasswordInput').value = '';
+  document.getElementById('loginPasswordInput').focus();
+}
+
+function syncLoginBranding() {
+  const s = db.settings;
+  const nEl = document.getElementById('loginCollegeName');
+  const sEl = document.getElementById('loginCollegeSub');
+  const lEl = document.getElementById('loginLogoBox');
+  if (nEl) nEl.innerHTML = (s.collegeName || '').replace(/\n/g, '<br>');
+  if (sEl) sEl.textContent = s.collegeSub + ' — ERP LOGIN';
+  if (lEl && s.logo) lEl.innerHTML = `<img src="${s.logo}" alt="Logo">`;
+}
+
+function doLogin() {
+  const entered = document.getElementById('loginPasswordInput').value;
+  const expected = selectedLoginRole === 'admin' ? (db.auth.adminPass || 'admin123') : (db.auth.employeePass || 'staff123');
+  if (entered !== expected) {
+    document.getElementById('loginError').textContent = '❌ Incorrect Password! Please try again.';
+    return;
+  }
+  currentUserRole = selectedLoginRole;
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.body.classList.toggle('role-employee', currentUserRole === 'employee');
+  const badge = document.getElementById('activeRoleBadge');
+  if (currentUserRole === 'admin') {
+    badge.textContent = '👑 Admin Mode';
+    badge.className = 'badge badge-purple';
+  } else {
+    badge.textContent = '👤 Employee Mode';
+    badge.className = 'badge badge-blue';
+  }
+  showSection('dashboard', document.querySelector('.nav-btn'));
+  toast(currentUserRole === 'admin' ? 'Logged in as Admin (Full Control)' : 'Logged in as Employee (Staff Mode)');
+}
+
+function doLogout() {
+  currentUserRole = null;
+  document.body.classList.remove('role-employee');
+  document.getElementById('loginPasswordInput').value = '';
+  document.getElementById('loginError').textContent = '';
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('loginPasswordInput').focus();
+}
+
+function savePasswords() {
+  if (currentUserRole !== 'admin') { toast('Admin access required.'); return; }
+  const ap = document.getElementById('setAdminPass').value.trim();
+  const ep = document.getElementById('setEmpPass').value.trim();
+  if (!ap || !ep) { toast('Both passwords must be non-empty.'); return; }
+  db.auth.adminPass = ap;
+  db.auth.employeePass = ep;
+  saveDB();
+  toast('Admin & Employee passwords updated successfully!');
+}
+
+// ================= NAVIGATION =================
+function showSection(name, btn) {
+  if (currentUserRole === 'employee' && (name === 'settings' || name === 'promotion')) {
+    toast('Access Restricted: Admin login required.');
+    return;
+  }
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const titles = {
+    dashboard: 'Dashboard Overview',
+    admission: 'Student Admission Form',
+    students: 'Students Directory & Documents',
+    fees: 'Separated Fee Management',
+    reports: 'Reports & Downloads Center',
+    promotion: 'Semester / Year Promotion & Balance Carry-Forward',
+    gatepass: 'Editable College & Hostel Gate Pass Designer',
+    certificates: 'Certificates, TC & Admission Prints',
+    letterhead: 'Official Letterhead, Applications & Notices',
+    comms: 'WhatsApp & SMS Hub',
+    settings: 'Settings, Course-Wise Fee Setup & Backup'
+  };
+  document.getElementById('pageTitle').textContent = titles[name] || 'ERP';
+  refreshAllViews();
+}
+
+// ================= STUDENT & FEE MATH (WITH CARRY FORWARD) =================
+function getStudentFeeTotals(st) {
+  const f = st.fees || {};
+  const cf = st.carryForward || { college: 0, hostel: 0, uniform: 0 };
+
+  const currCollege = COLLEGE_HEADS.reduce((s, h) => s + (Number(f[h.key]) || 0), 0);
+  const currHostel = Number(f.hostelFee) || 0;
+  const currUniform = Number(f.uniformFee) || 0;
+
+  const cfCollege = Number(cf.college) || 0;
+  const cfHostel = Number(cf.hostel) || 0;
+  const cfUniform = Number(cf.uniform) || 0;
+  const cfTotal = cfCollege + cfHostel + cfUniform;
+
+  const collegeTotal = currCollege + cfCollege;
+  const hostelTotal = currHostel + cfHostel;
+  const uniformTotal = currUniform + cfUniform;
+  const grandTotal = collegeTotal + hostelTotal + uniformTotal;
+
+  // Count receipts belonging to the student's CURRENT term
+  const stTerm = st.currentTerm || '1st Year';
+  const stReceipts = db.receipts.filter(r => r.studentId === st.id && (r.term === stTerm || !r.term));
+  const collegePaid = stReceipts.filter(r => r.section === 'College Fee').reduce((s, r) => s + Number(r.amount || 0), 0);
+  const hostelPaid = stReceipts.filter(r => r.section === 'Hostel Fee').reduce((s, r) => s + Number(r.amount || 0), 0);
+  const uniformPaid = stReceipts.filter(r => r.section === 'Uniform Fee').reduce((s, r) => s + Number(r.amount || 0), 0);
+  const totalPaid = collegePaid + hostelPaid + uniformPaid;
+
+  const allTimePaid = db.receipts.filter(r => r.studentId === st.id).reduce((s, r) => s + Number(r.amount || 0), 0);
+
+  return {
+    currCollege, currHostel, currUniform,
+    cfCollege, cfHostel, cfUniform, cfTotal,
+    collegeTotal, hostelTotal, uniformTotal, grandTotal,
+    collegePaid, hostelPaid, uniformPaid, totalPaid, allTimePaid,
+    collegeDue: Math.max(0, collegeTotal - collegePaid),
+    hostelDue: Math.max(0, hostelTotal - hostelPaid),
+    uniformDue: Math.max(0, uniformTotal - uniformPaid),
+    totalDue: Math.max(0, grandTotal - totalPaid)
+  };
+}
+
+// ================= ADMISSION MODULE =================
+function resetAdmissionForm() {
+  document.getElementById('editStudentId').value = '';
+  document.getElementById('admFormHeading').textContent = 'Student Admission Form (Course-Wise Auto Fee + Hosteller/Day Scholar)';
+  const nextNum = String(db.students.length + 1).padStart(3, '0');
+  document.getElementById('admNo').value = `ALC/2026/${nextNum}`;
+  document.getElementById('regNo').value = `REG-2026-${nextNum}`;
+  document.getElementById('admDate').value = todayISO();
+  ['admName','admFather','admMother','admDob','admPhone','admParentPhone','admAadhaar','admAddress'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('admCourse').value = 'LLB 3 Year';
+  document.getElementById('admTerm').value = '1st Semester';
+  document.getElementById('admType').value = 'Day Scholar';
+  tempPhoto = '';
+  tempDocs = [];
+  renderPhotoPreview();
+  renderTempDocs();
+  forceReloadCourseFees();
+}
+
+function onAdmissionCourseChange() {
+  const course = document.getElementById('admCourse').value;
+  if (!document.getElementById('editStudentId').value) {
+    document.getElementById('admTerm').value = '1st Semester';
+    forceReloadCourseFees();
+  } else {
+    updateAdmissionJustifyBanner();
+  }
+}
+
+function forceReloadCourseFees() {
+  const course = document.getElementById('admCourse').value;
+  const cf = getCourseFeeTemplate(course);
+  Object.keys(cf).forEach(k => {
+    const el = document.getElementById('f_' + k);
+    if (el) el.value = cf[k] || 0;
+  });
+  applyHostelDayLogic();
+}
+
+function applyHostelDayLogic() {
+  const course = document.getElementById('admCourse').value;
+  const type = document.getElementById('admType').value;
+  const cf = getCourseFeeTemplate(course);
+  const transEl = document.getElementById('f_transportFee');
+  const hostelEl = document.getElementById('f_hostelFee');
+
+  if (type === 'Hosteller') {
+    transEl.value = 0;
+    transEl.readOnly = true;
+    transEl.style.background = '#e2e8f0';
+    hostelEl.readOnly = false;
+    hostelEl.style.background = '#ffffff';
+    if (Number(hostelEl.value) === 0) hostelEl.value = cf.hostelFee || 0;
+  } else {
+    hostelEl.value = 0;
+    hostelEl.readOnly = true;
+    hostelEl.style.background = '#e2e8f0';
+    transEl.readOnly = false;
+    transEl.style.background = '#ffffff';
+    if (Number(transEl.value) === 0) transEl.value = cf.transportFee || 0;
+  }
+  updateAdmissionJustifyBanner();
+  calcAdmissionTotal();
+}
+
+function updateAdmissionJustifyBanner() {
+  const course = document.getElementById('admCourse').value;
+  const term = document.getElementById('admTerm').value;
+  const type = document.getElementById('admType').value;
+  const banner = document.getElementById('admJustifyBanner');
+  if (!banner) return;
+  if (type === 'Hosteller') {
+    banner.style.background = '#fef3c7';
+    banner.style.color = '#92400e';
+    banner.style.border = '1px solid #f59e0b';
+    banner.innerHTML = `<span>✅ Fee Justified For: <b>${course} (${term}) — 🏠 HOSTELLER</b></span><span>Hostel Fee Active | Transportation Fee Locked (₹0)</span>`;
+  } else {
+    banner.style.background = '#dbeafe';
+    banner.style.color = '#1e40af';
+    banner.style.border = '1px solid #3b82f6';
+    banner.innerHTML = `<span>✅ Fee Justified For: <b>${course} (${term}) — 🚌 DAY SCHOLAR</b></span><span>Transportation Fee Active | Hostel Fee Locked (₹0)</span>`;
+  }
+}
+
+function calcAdmissionTotal() {
+  const cSum = COLLEGE_HEADS.reduce((s, h) => s + (Number(document.getElementById('f_' + h.key).value) || 0), 0);
+  const hSum = Number(document.getElementById('f_hostelFee').value) || 0;
+  const uSum = Number(document.getElementById('f_uniformFee').value) || 0;
+  document.getElementById('sumCollegeFee').textContent = fmtINR(cSum);
+  document.getElementById('sumHostelFee').textContent = fmtINR(hSum);
+  document.getElementById('sumUniformFee').textContent = fmtINR(uSum);
+  document.getElementById('sumGrandTotal').textContent = fmtINR(cSum + hSum + uSum);
+}
+
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxW = 240, maxH = 280;
+      let w = img.width, h = img.height;
+      const ratio = Math.min(maxW / w, maxH / h, 1);
+      canvas.width = w * ratio; canvas.height = h * ratio;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      tempPhoto = canvas.toDataURL('image/jpeg', 0.78);
+      renderPhotoPreview();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhoto() {
+  tempPhoto = '';
+  document.getElementById('admPhotoInput').value = '';
+  renderPhotoPreview();
+}
+
+function renderPhotoPreview() {
+  const box = document.getElementById('admPhotoPreview');
+  box.innerHTML = tempPhoto ? `<img src="${tempPhoto}" alt="Photo">` : 'No Photo';
+}
+
+function handleDocsUpload(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    if (file.size > 1500000) {
+      toast(`Skipped ${file.name} (>1.5 MB). Compress file first.`);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev => {
+      tempDocs.push({ name: file.name, type: file.type, data: ev.target.result });
+      renderTempDocs();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function renderTempDocs() {
+  const box = document.getElementById('admDocsList');
+  if (!tempDocs.length) { box.innerHTML = '<span style="font-size:12px;color:var(--muted);">No documents attached yet.</span>'; return; }
+  box.innerHTML = tempDocs.map((d, i) => `
+    <span class="doc-chip">
+      📎 ${d.name}
+      <button type="button" onclick="removeTempDoc(${i})" style="border:none;background:none;color:var(--danger);cursor:pointer;font-weight:700;">✕</button>
+    </span>
+  `).join('');
+}
+
+function removeTempDoc(idx) {
+  tempDocs.splice(idx, 1);
+  renderTempDocs();
+}
+
+function saveStudent(printAfter = false) {
+  const name = document.getElementById('admName').value.trim();
+  const admNo = document.getElementById('admNo').value.trim();
+  if (!name || !admNo) { toast('Please enter Admission No and Student Name.'); return; }
+
+  const fees = {};
+  [...COLLEGE_HEADS, ...HOSTEL_HEADS, ...UNIFORM_HEADS].forEach(h => {
+    fees[h.key] = Number(document.getElementById('f_' + h.key).value) || 0;
+  });
+
+  const editId = document.getElementById('editStudentId').value;
+  const existing = editId ? db.students.find(s => s.id === editId) : null;
+
+  const studentObj = {
+    id: editId || 'STU_' + Date.now(),
+    admNo,
+    regNo: document.getElementById('regNo').value.trim(),
+    admDate: document.getElementById('admDate').value || todayISO(),
+    course: document.getElementById('admCourse').value,
+    currentTerm: document.getElementById('admTerm').value,
+    session: document.getElementById('admSession').value.trim(),
+    type: document.getElementById('admType').value,
+    status: existing ? existing.status : 'Active',
+    name,
+    father: document.getElementById('admFather').value.trim(),
+    mother: document.getElementById('admMother').value.trim(),
+    dob: document.getElementById('admDob').value,
+    gender: document.getElementById('admGender').value,
+    category: document.getElementById('admCategory').value,
+    phone: document.getElementById('admPhone').value.trim(),
+    parentPhone: document.getElementById('admParentPhone').value.trim(),
+    aadhaar: document.getElementById('admAadhaar').value.trim(),
+    address: document.getElementById('admAddress').value.trim(),
+    photo: tempPhoto,
+    docs: tempDocs,
+    fees,
+    carryForward: existing ? (existing.carryForward || { college: 0, hostel: 0, uniform: 0 }) : { college: 0, hostel: 0, uniform: 0 },
+    promotionHistory: existing ? (existing.promotionHistory || []) : []
+  };
+
+  if (editId) {
+    const idx = db.students.findIndex(s => s.id === editId);
+    if (idx > -1) db.students[idx] = studentObj;
+    toast('Student record updated successfully!');
+  } else {
+    db.students.unshift(studentObj);
+    toast('New student admitted successfully!');
+  }
+
+  saveDB();
+  refreshAllViews();
+  if (printAfter) printDocument('admission', studentObj.id);
+  resetAdmissionForm();
+}
+
+function editStudent(id) {
+  const st = db.students.find(s => s.id === id);
+  if (!st) return;
+  showSection('admission');
+  document.getElementById('editStudentId').value = st.id;
+  document.getElementById('admFormHeading').textContent = 'Edit Student: ' + st.name;
+  document.getElementById('admNo').value = st.admNo || '';
+  document.getElementById('regNo').value = st.regNo || '';
+  document.getElementById('admDate').value = st.admDate || todayISO();
+  document.getElementById('admCourse').value = st.course || 'LLB 3 Year';
+  document.getElementById('admTerm').value = st.currentTerm || '1st Year';
+  document.getElementById('admSession').value = st.session || '';
+  document.getElementById('admType').value = st.type || 'Day Scholar';
+  document.getElementById('admName').value = st.name || '';
+  document.getElementById('admFather').value = st.father || '';
+  document.getElementById('admMother').value = st.mother || '';
+  document.getElementById('admDob').value = st.dob || '';
+  document.getElementById('admGender').value = st.gender || 'Female';
+  document.getElementById('admCategory').value = st.category || 'General';
+  document.getElementById('admPhone').value = st.phone || '';
+  document.getElementById('admParentPhone').value = st.parentPhone || '';
+  document.getElementById('admAadhaar').value = st.aadhaar || '';
+  document.getElementById('admAddress').value = st.address || '';
+  tempPhoto = st.photo || '';
+  tempDocs = JSON.parse(JSON.stringify(st.docs || []));
+  renderPhotoPreview();
+  renderTempDocs();
+  [...COLLEGE_HEADS, ...HOSTEL_HEADS, ...UNIFORM_HEADS].forEach(h => {
+    document.getElementById('f_' + h.key).value = (st.fees && st.fees[h.key]) || 0;
+  });
+  applyHostelDayLogic();
+}
+
+function deleteStudent(id) {
+  if (!confirm('Are you sure you want to DELETE this student and all their fee receipts?')) return;
+  db.students = db.students.filter(s => s.id !== id);
+  db.receipts = db.receipts.filter(r => r.studentId !== id);
+  saveDB();
+  refreshAllViews();
+  toast('Student deleted.');
+}
+
+function openDocsModal(id) {
+  const st = db.students.find(s => s.id === id);
+  if (!st) return;
+  document.getElementById('docsModalTitle').textContent = `Documents: ${st.name} (${st.admNo})`;
+  const body = document.getElementById('docsModalBody');
+  if (!st.docs || !st.docs.length) {
+    body.innerHTML = '<p style="color:var(--muted);">No documents attached. Click Edit Student to upload documents.</p>';
+  } else {
+    body.innerHTML = st.docs.map(d => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px;">
+        <div><b>📎 ${d.name}</b></div>
+        <div class="btn-group">
+          <a href="${d.data}" download="${d.name}" class="btn btn-primary btn-sm" style="text-decoration:none;">⬇ Download</a>
+          <button class="btn btn-outline btn-sm" onclick="previewDoc('${d.data}')">👁 Preview</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('docsModal').classList.add('open');
+}
+
+function openHistoryModal(id) {
+  const st = db.students.find(s => s.id === id);
+  if (!st) return;
+  const t = getStudentFeeTotals(st);
+  document.getElementById('historyModalTitle').textContent = `Academic & Balance History: ${st.name} (${st.admNo})`;
+  let html = `
+    <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid var(--border);margin-bottom:14px;font-size:13px;">
+      <b>Current Status:</b> ${st.course} — <span class="badge badge-purple">${st.currentTerm}</span> (${st.session}) |
+      <b>Type:</b> ${st.type} |
+      <b>Previous Carry-Forward Due:</b> <span style="color:var(--danger);font-weight:700;">${fmtINR(t.cfTotal)}</span> |
+      <b>Current Total Due:</b> <span style="color:var(--danger);font-weight:700;">${fmtINR(t.totalDue)}</span>
+    </div>
+  `;
+  if (!st.promotionHistory || !st.promotionHistory.length) {
+    html += '<p style="color:var(--muted);font-size:13px;">No past semester/year promotions yet. When promoted from the Promotion tab, completed term records will appear here.</p>';
+  } else {
+    html += `
+      <table>
+        <thead><tr><th>Completed Term</th><th>Session</th><th>Total Payable</th><th>Paid</th><th>Carried Forward Due</th><th>Promoted On</th></tr></thead>
+        <tbody>
+          ${st.promotionHistory.map(h => `
+            <tr>
+              <td><b>${h.term}</b></td>
+              <td>${h.session}</td>
+              <td>${fmtINR(h.totalPayable)}</td>
+              <td style="color:var(--success);font-weight:600;">${fmtINR(h.paid)}</td>
+              <td style="color:var(--danger);font-weight:700;">${fmtINR(h.carriedForwardTotal)}</td>
+              <td>${h.promotedDate}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+  document.getElementById('historyModalBody').innerHTML = html;
+  document.getElementById('historyModal').classList.add('open');
+}
+
+function previewDoc(dataUrl) {
+  const w = window.open();
+  w.document.write(`<iframe src="${dataUrl}" style="width:100%;height:100vh;border:none;"></iframe>`);
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ================= PROMOTION / PASSOUT ENGINE =================
+function onPromoTermFilterChange() {
+  renderPromotionTable();
+}
+
+function renderPromotionTable() {
+  const cf = document.getElementById('promoCourseFilter')?.value || '';
+  const tf = document.getElementById('promoTermFilter')?.value || '';
+  const tb = document.getElementById('promotionTableBody');
+  if (!tb) return;
+
+  const list = db.students.filter(s => {
+    const active = s.status !== 'Passed Out' && s.currentTerm !== 'Passed Out';
+    const matchC = !cf || s.course === cf;
+    const matchT = !tf || s.currentTerm === tf;
+    return active && matchC && matchT;
+  });
+
+  if (!list.length) {
+    tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px;">No active students matching filter.</td></tr>';
+    return;
+  }
+
+  tb.innerHTML = list.map(s => {
+    const t = getStudentFeeTotals(s);
+    const nextT = getAutoNextTerm(s);
+    return `
+      <tr>
+        <td><input type="checkbox" class="promo-chk" value="${s.id}"></td>
+        <td><b>${s.admNo}</b></td>
+        <td><b>${s.name}</b><br><span style="font-size:11px;color:var(--muted);">S/D of ${s.father}</span></td>
+        <td>${s.course}<br><span class="badge ${s.type==='Hosteller'?'badge-amber':'badge-blue'}">${s.type}</span></td>
+        <td><span class="badge badge-purple">${s.currentTerm}</span><br><span style="font-size:11px;color:var(--muted);">${s.session}</span></td>
+        <td><b>➡ ${nextT}</b></td>
+        <td style="color:${t.totalDue>0?'var(--danger)':'var(--success)'};font-weight:700;">
+          ${fmtINR(t.totalDue)}
+          ${t.totalDue>0 ? `<br><span style="font-size:10.5px;color:var(--muted);">Col:${fmtINR(t.collegeDue)} | Hos:${fmtINR(t.hostelDue)} | Uni:${fmtINR(t.uniformDue)}</span>` : '<br><span style="font-size:10.5px;">Cleared</span>'}
+        </td>
+        <td><button class="btn btn-purple btn-sm" onclick="promoteSingleStudent('${s.id}')">Promote</button></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function toggleAllPromoChecks(checked) {
+  document.querySelectorAll('.promo-chk').forEach(c => c.checked = checked);
+  const master = document.getElementById('promoSelectAll');
+  if (master) master.checked = checked;
+}
+
+function executePromotionForIds(ids) {
+  if (!ids.length) { toast('Please select at least one student to promote.'); return; }
+  const targetMode = document.getElementById('promoTargetTerm').value;
+  const newSession = document.getElementById('promoNewSession').value.trim() || '2027-28';
+  const carryBal = document.getElementById('promoCarryBalance').checked;
+  const applyNextFee = document.getElementById('promoApplyNextFee').checked;
+  const skipOneTime = document.getElementById('promoSkipOneTime').checked;
+
+  if (!confirm(`Promote ${ids.length} student(s) to their next term/passout? Unpaid balances will be carried forward automatically.`)) return;
+
+  let count = 0;
+  ids.forEach(id => {
+    const st = db.students.find(s => s.id === id);
+    if (!st) return;
+    const t = getStudentFeeTotals(st);
+    const nextTerm = (targetMode === 'AUTO') ? getAutoNextTerm(st) : targetMode;
+
+    // 1. Archive completed term into history
+    st.promotionHistory = st.promotionHistory || [];
+    st.promotionHistory.unshift({
+      term: st.currentTerm,
+      session: st.session,
+      totalPayable: t.grandTotal,
+      paid: t.totalPaid,
+      carriedForward: carryBal ? { college: t.collegeDue, hostel: t.hostelDue, uniform: t.uniformDue } : { college: 0, hostel: 0, uniform: 0 },
+      carriedForwardTotal: carryBal ? t.totalDue : 0,
+      promotedDate: todayISO()
+    });
+
+    // 2. Carry forward unpaid balances
+    if (carryBal) {
+      st.carryForward = {
+        college: t.collegeDue,
+        hostel: t.hostelDue,
+        uniform: t.uniformDue
+      };
+    } else {
+      st.carryForward = { college: 0, hostel: 0, uniform: 0 };
+    }
+
+    // 3. Update term & status
+    st.currentTerm = nextTerm;
+    if (nextTerm === 'Passed Out') {
+      st.status = 'Passed Out';
+      // Zero out new term fees; only carried-forward balance remains payable
+      const zeroFees = {};
+      [...COLLEGE_HEADS, ...HOSTEL_HEADS, ...UNIFORM_HEADS].forEach(h => zeroFees[h.key] = 0);
+      st.fees = zeroFees;
+    } else {
+      st.status = 'Active';
+      st.session = newSession;
+      if (applyNextFee) {
+        const cf = getCourseFeeTemplate(st.course);
+        const newFees = {};
+        [...COLLEGE_HEADS, ...HOSTEL_HEADS, ...UNIFORM_HEADS].forEach(h => {
+          newFees[h.key] = (skipOneTime && h.oneTime) ? 0 : (Number(cf[h.key]) || 0);
+        });
+        // Enforce Hosteller / Day Scholar lock
+        if (st.type === 'Hosteller') {
+          newFees.transportFee = 0;
+        } else {
+          newFees.hostelFee = 0;
+        }
+        st.fees = newFees;
+      }
+    }
+    count++;
+  });
+
+  saveDB();
+  refreshAllViews();
+  toast(`Successfully promoted ${count} student(s) with balance carry-forward!`);
+}
+
+function promoteSelectedStudents() {
+  const ids = Array.from(document.querySelectorAll('.promo-chk:checked')).map(c => c.value);
+  executePromotionForIds(ids);
+}
+
+function promoteSingleStudent(id) {
+  executePromotionForIds([id]);
+}
+
+// ================= FEE MANAGEMENT =================
+function updateFeeHeadDropdown() {
+  const sid = document.getElementById('feeStudentSelect')?.value;
+  const st = db.students.find(s => s.id === sid);
+  const secSel = document.getElementById('feeSectionSelect');
+  const hostelOpt = secSel.querySelector('option[value="Hostel Fee"]');
+
+  if (st && st.type === 'Day Scholar' && !(st.carryForward && st.carryForward.hostel > 0)) {
+    if (hostelOpt) hostelOpt.disabled = true;
+    if (secSel.value === 'Hostel Fee') secSel.value = 'College Fee';
+  } else {
+    if (hostelOpt) hostelOpt.disabled = false;
+  }
+
+  const sec = secSel.value;
+  const sel = document.getElementById('feeHeadSelect');
+  let list = sec === 'College Fee' ? [...COLLEGE_HEADS] : (sec === 'Hostel Fee' ? [...HOSTEL_HEADS] : [...UNIFORM_HEADS]);
+  if (st && st.type === 'Hosteller' && sec === 'College Fee') {
+    list = list.filter(h => h.key !== 'transportFee');
+  }
+  const cfOption = (st && getStudentFeeTotals(st).cfTotal > 0) ? `<option value="Previous Balance (Carry Forward)">Previous Balance (Carry Forward)</option>` : '';
+  sel.innerHTML = cfOption + list.map(h => `<option value="${h.label}">${h.label}</option>`).join('');
+}
+
+function resetFeeForm() {
+  document.getElementById('editReceiptId').value = '';
+  document.getElementById('feeAmount').value = '';
+  document.getElementById('feeRemarks').value = '';
+  document.getElementById('feeDate').value = todayISO();
+  document.getElementById('feeReceiptNo').value = 'RCP-' + String(db.receipts.length + 1001);
+  updateFeeHeadDropdown();
+}
+
+function loadStudentFeeStatus() {
+  const sid = document.getElementById('feeStudentSelect').value;
+  const box = document.getElementById('studentFeeBreakdown');
+  const banner = document.getElementById('feeStudentTypeBanner');
+  const st = db.students.find(s => s.id === sid);
+  updateFeeHeadDropdown();
+  if (!st) {
+    if (banner) banner.style.display = 'none';
+    box.innerHTML = 'Select a student to see fee summary.';
+    return;
+  }
+  const t = getStudentFeeTotals(st);
+  if (banner) {
+    banner.style.display = 'block';
+    if (st.type === 'Hosteller') {
+      banner.textContent = `🏠 ${st.course} (${st.currentTerm}) — HOSTELLER | Hostel Fee Active, Transport Disabled`;
+      banner.style.background = '#fef3c7'; banner.style.color = '#92400e'; banner.style.border = '1px solid #f59e0b';
+    } else {
+      banner.textContent = `🚌 ${st.course} (${st.currentTerm}) — DAY SCHOLAR | Transport Fee Active, Hostel Disabled`;
+      banner.style.background = '#dbeafe'; banner.style.color = '#1e40af'; banner.style.border = '1px solid #3b82f6';
+    }
+  }
+  box.innerHTML = `
+    <div style="margin-bottom:10px;">
+      <b>${st.name}</b> (${st.admNo}) &nbsp;
+      <span class="badge badge-purple">${st.course} • ${st.currentTerm}</span>
+      <span class="badge ${st.type==='Hosteller'?'badge-amber':'badge-blue'}">${st.type}</span>
+    </div>
+    <table>
+      <thead><tr><th>Fee Section</th><th>Prev Bal</th><th>Curr Term</th><th>Total</th><th>Paid</th><th>Due</th></tr></thead>
+      <tbody>
+        <tr><td><b>1. College Fee</b></td><td>${fmtINR(t.cfCollege)}</td><td>${fmtINR(t.currCollege)}</td><td>${fmtINR(t.collegeTotal)}</td><td style="color:var(--success)">${fmtINR(t.collegePaid)}</td><td style="color:var(--danger);font-weight:700">${fmtINR(t.collegeDue)}</td></tr>
+        <tr><td><b>2. Hostel Fee</b></td><td>${fmtINR(t.cfHostel)}</td><td>${fmtINR(t.currHostel)}</td><td>${fmtINR(t.hostelTotal)}</td><td style="color:var(--success)">${fmtINR(t.hostelPaid)}</td><td style="color:var(--danger);font-weight:700">${fmtINR(t.hostelDue)}</td></tr>
+        <tr><td><b>3. Uniform Fee</b></td><td>${fmtINR(t.cfUniform)}</td><td>${fmtINR(t.currUniform)}</td><td>${fmtINR(t.uniformTotal)}</td><td style="color:var(--success)">${fmtINR(t.uniformPaid)}</td><td style="color:var(--danger);font-weight:700">${fmtINR(t.uniformDue)}</td></tr>
+        <tr style="background:#f1f5f9;font-weight:700;"><td>GRAND TOTAL</td><td>${fmtINR(t.cfTotal)}</td><td>${fmtINR(t.currCollege+t.currHostel+t.currUniform)}</td><td>${fmtINR(t.grandTotal)}</td><td style="color:var(--success)">${fmtINR(t.totalPaid)}</td><td style="color:var(--danger)">${fmtINR(t.totalDue)}</td></tr>
+      </tbody>
+    </table>
+  `;
+}
+
+function saveFeePayment() {
+  const studentId = document.getElementById('feeStudentSelect').value;
+  const amount = Number(document.getElementById('feeAmount').value);
+  if (!studentId || !amount || amount <= 0) { toast('Select student and enter valid amount.'); return; }
+  const st = db.students.find(s => s.id === studentId);
+
+  const editId = document.getElementById('editReceiptId').value;
+  const existing = editId ? db.receipts.find(r => r.id === editId) : null;
+  const rec = {
+    id: editId || 'RCP_' + Date.now(),
+    receiptNo: document.getElementById('feeReceiptNo').value.trim() || ('RCP-' + Date.now()),
+    studentId,
+    term: existing ? existing.term : (st ? st.currentTerm : '1st Year'),
+    section: document.getElementById('feeSectionSelect').value,
+    head: document.getElementById('feeHeadSelect').value,
+    amount,
+    date: document.getElementById('feeDate').value || todayISO(),
+    mode: document.getElementById('feeMode').value,
+    remarks: document.getElementById('feeRemarks').value.trim()
+  };
+
+  if (editId) {
+    const idx = db.receipts.findIndex(r => r.id === editId);
+    if (idx > -1) db.receipts[idx] = rec;
+    toast('Fee receipt updated!');
+  } else {
+    db.receipts.unshift(rec);
+    toast('Fee payment recorded!');
+  }
+  saveDB();
+  refreshAllViews();
+  loadStudentFeeStatus();
+  printReceipt(rec.id);
+  resetFeeForm();
+}
+
+function editReceipt(id) {
+  const r = db.receipts.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('editReceiptId').value = r.id;
+  document.getElementById('feeStudentSelect').value = r.studentId;
+  document.getElementById('feeSectionSelect').value = r.section;
+  updateFeeHeadDropdown();
+  document.getElementById('feeHeadSelect').value = r.head;
+  document.getElementById('feeAmount').value = r.amount;
+  document.getElementById('feeDate').value = r.date;
+  document.getElementById('feeMode').value = r.mode;
+  document.getElementById('feeReceiptNo').value = r.receiptNo;
+  document.getElementById('feeRemarks').value = r.remarks || '';
+  loadStudentFeeStatus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteReceipt(id) {
+  if (!confirm('Delete this fee receipt? Student balance will recalculate automatically.')) return;
+  db.receipts = db.receipts.filter(r => r.id !== id);
+  saveDB();
+  refreshAllViews();
+  loadStudentFeeStatus();
+  toast('Receipt deleted.');
+}
+
+// ================= CERTIFICATES & PASSES =================
+function toggleCertExtraFields() {
+  const type = document.getElementById('certTypeSelect').value;
+  const box = document.getElementById('certExtraFields');
+  if (type === 'tc') {
+    box.innerHTML = `
+      <div class="form-group"><label>TC Number</label><input id="cx_tcNo" value="TC/2026/001"></div>
+      <div class="form-group"><label>Character / Conduct</label><input id="cx_conduct" value="Good"></div>
+      <div class="form-group"><label>Reason for Leaving</label><input id="cx_reason" value="Course Completed / Personal"></div>
+      <div class="form-group"><label>Fee Dues Status</label><select id="cx_dues"><option>All Dues Cleared</option><option>Pending</option></select></div>
+    `;
+  } else if (type === 'hostel_pass' || type === 'college_pass') {
+    box.innerHTML = `
+      <div class="form-group"><label>Out Date & Time</label><input id="cx_outTime" value="${todayISO()} 10:00 AM"></div>
+      <div class="form-group"><label>Expected Return</label><input id="cx_retTime" value="${todayISO()} 05:00 PM"></div>
+      <div class="form-group"><label>Purpose / Reason</label><input id="cx_purpose" value="Going Home / Medical / Personal"></div>
+      <div class="form-group"><label>Accompanied By / Guardian</label><input id="cx_guardian" value="Self / Parent"></div>
+    `;
+  } else if (type === 'bonafide') {
+    box.innerHTML = `
+      <div class="form-group full-width"><label>Purpose of Bonafide Certificate</label><input id="cx_purpose" value="Scholarship / Bank Account / Official Verification"></div>
+    `;
+  } else {
+    box.innerHTML = `<div style="font-size:12.5px;color:var(--muted);">Ready to print with student's complete profile, photo, course term, and separated fee details.</div>`;
+  }
+}
+
+function printSelectedCertificate() {
+  const sid = document.getElementById('certStudentSelect').value;
+  const type = document.getElementById('certTypeSelect').value;
+  if (!sid) { toast('Please select a student first.'); return; }
+  printDocument(type, sid);
+}
+
+// ================= LETTERHEAD & NOTICES =================
+function formatDisplayDate(isoStr) {
+  if (!isoStr) return '';
+  const parts = String(isoStr).split('-');
+  if (parts.length !== 3) return isoStr;
+  return `${parts[2]}-${parts[1]}-${parts[0]}`;
+}
+
+function addDaysISO(isoStr, days) {
+  const base = isoStr ? new Date(isoStr + 'T00:00:00') : new Date();
+  base.setDate(base.getDate() + days);
+  return base.toISOString().split('T')[0];
+}
+
+function getDayNameFromISO(isoStr) {
+  if (!isoStr) return '';
+  const d = new Date(isoStr + 'T00:00:00');
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-IN', { weekday: 'long' });
+}
+
+function syncHolidayNoticeFromCalendar() {
+  const tplType = document.getElementById('noticeTemplate')?.value;
+  const holBox = document.getElementById('holidayCalendarBox');
+  if (tplType !== 'holiday') {
+    if (holBox) holBox.style.display = 'none';
+    return;
+  }
+  if (holBox) holBox.style.display = 'block';
+
+  const startISO = document.getElementById('holStartDate')?.value || document.getElementById('noticeDate')?.value || todayISO();
+  const endISO = document.getElementById('holEndDate')?.value || '';
+  const occasionRaw = (document.getElementById('holOccasion')?.value || '').trim();
+  let resumeISO = document.getElementById('holResumeDate')?.value || '';
+
+  const baseForResume = (endISO && endISO >= startISO) ? endISO : startISO;
+  if (!resumeISO) {
+    resumeISO = addDaysISO(baseForResume, 1);
+    const resEl = document.getElementById('holResumeDate');
+    if (resEl) resEl.value = resumeISO;
+  }
+
+  const startDisp = formatDisplayDate(startISO);
+  const startDay = getDayNameFromISO(startISO);
+  const endDisp = (endISO && endISO >= startISO) ? formatDisplayDate(endISO) : '';
+  const endDay = endDisp ? getDayNameFromISO(endISO) : '';
+  const resumeDisp = formatDisplayDate(resumeISO);
+  const resumeDay = getDayNameFromISO(resumeISO);
+
+  const occasionText = occasionRaw || (startDay === 'Sunday' ? 'Sunday' : (startDay ? `${startDay} Holiday` : 'Holiday'));
+  const dateRangeText = endDisp && endDisp !== startDisp
+    ? `from ${startDisp} (${startDay}) to ${endDisp} (${endDay})`
+    : `on ${startDisp} (${startDay})`;
+
+  document.getElementById('noticeTitle').value = 'HOLIDAY NOTICE';
+  document.getElementById('noticeSubject').value = occasionRaw
+    ? `College Holiday on account of ${occasionRaw} (${startDisp}${endDisp && endDisp !== startDisp ? ' to ' + endDisp : ''})`
+    : `College Holiday Notice (${startDisp}${endDisp && endDisp !== startDisp ? ' to ' + endDisp : ''})`;
+
+  document.getElementById('noticeBody').value =
+    `It is hereby notified to all students, faculty, and staff members that the College will remain closed ${dateRangeText} on account of ${occasionText}.
+
+Regular classes and moot court & academic activities will resume from ${resumeDisp} (${resumeDay}) at the usual timing.`;
+}
+
+function applyNoticeTemplate() {
+  const t = document.getElementById('noticeTemplate').value;
+  const holBox = document.getElementById('holidayCalendarBox');
+  if (t === 'holiday') {
+    if (holBox) holBox.style.display = 'block';
+    const curDate = document.getElementById('noticeDate')?.value || todayISO();
+    const sEl = document.getElementById('holStartDate');
+    const rEl = document.getElementById('holResumeDate');
+    if (sEl && !sEl.value) sEl.value = curDate;
+    if (rEl && !rEl.value) rEl.value = addDaysISO(sEl ? sEl.value : curDate, 1);
+    syncHolidayNoticeFromCalendar();
+    return;
+  } else if (holBox) {
+    holBox.style.display = 'none';
+  }
+
+  const map = {
+    fee_notice: {
+      title: 'URGENT FEE NOTICE',
+      subject: 'Submission of Pending College / Hostel / Uniform Fees',
+      body: 'All students of LLB (3 Year) and BA LLB (5 Year) courses are hereby informed to deposit their pending College Fee, Hostel Fee, and Uniform Fee (including any previous semester/year carry-forward balance) at the Accounts Office before the due date.'
+    },
+    exam: {
+      title: 'EXAMINATION NOTICE',
+      subject: 'Internal Assessment / Annual Examination Schedule',
+      body: 'All students are informed that the upcoming examinations will commence from [DATE]. Students must obtain their Admit Cards from the Admin Office after clearing all library, moot court, and fee dues.'
+    },
+    hostel_rules: {
+      title: 'HOSTEL NOTICE',
+      subject: 'Mandatory Gate Pass for Hostel Students',
+      body: 'All hostellers are strictly instructed that no student is allowed to leave the campus without an approved Hostel Gate Pass signed by the Warden and verified with Parents/Guardians.'
+    },
+    general_app: {
+      title: 'OFFICIAL LETTER / APPLICATION',
+      subject: 'To, The Concerned Authority',
+      body: 'Respected Sir/Madam,\n\nWith reference to the subject cited above, we would like to state that...\n\nThanking you.'
+    }
+  };
+  if (map[t]) {
+    document.getElementById('noticeTitle').value = map[t].title;
+    document.getElementById('noticeSubject').value = map[t].subject;
+    document.getElementById('noticeBody').value = map[t].body;
+  }
+}
+
+function resetNoticeForm() {
+  document.getElementById('editNoticeId').value = '';
+  document.getElementById('noticeRef').value = 'ALC/2026/N-' + String(db.notices.length + 1).padStart(2, '0');
+  document.getElementById('noticeDate').value = todayISO();
+  document.getElementById('noticeTitle').value = 'NOTICE';
+  document.getElementById('noticeSubject').value = '';
+  document.getElementById('noticeBody').value = '';
+  document.getElementById('noticeTemplate').value = '';
+  const nlm = document.getElementById('noticeLogoMode');
+  if (nlm) nlm.value = 'auto';
+  const holBox = document.getElementById('holidayCalendarBox');
+  if (holBox) holBox.style.display = 'none';
+  if (document.getElementById('holStartDate')) document.getElementById('holStartDate').value = '';
+  if (document.getElementById('holEndDate')) document.getElementById('holEndDate').value = '';
+  if (document.getElementById('holOccasion')) document.getElementById('holOccasion').value = '';
+  if (document.getElementById('holResumeDate')) document.getElementById('holResumeDate').value = '';
+}
+
+function saveAndPrintNotice(doPrint) {
+  const title = document.getElementById('noticeTitle').value.trim() || 'NOTICE';
+  const body = document.getElementById('noticeBody').value.trim();
+  if (!body) { toast('Please enter letter/notice content.'); return; }
+  const editId = document.getElementById('editNoticeId').value;
+  const obj = {
+    id: editId || 'NOT_' + Date.now(),
+    ref: document.getElementById('noticeRef').value.trim(),
+    date: document.getElementById('noticeDate').value || todayISO(),
+    title,
+    subject: document.getElementById('noticeSubject').value.trim(),
+    logoMode: document.getElementById('noticeLogoMode')?.value || 'auto',
+    body
+  };
+  if (editId) {
+    const i = db.notices.findIndex(n => n.id === editId);
+    if (i > -1) db.notices[i] = obj;
+    toast('Notice updated!');
+  } else {
+    db.notices.unshift(obj);
+    toast('Notice saved!');
+  }
+  saveDB();
+  renderNoticesTable();
+  renderGatePassTable();
+  if (doPrint) printNotice(obj.id);
+}
+
+function editNotice(id) {
+  const n = db.notices.find(x => x.id === id);
+  if (!n) return;
+  document.getElementById('editNoticeId').value = n.id;
+  document.getElementById('noticeRef').value = n.ref;
+  document.getElementById('noticeDate').value = n.date;
+  document.getElementById('noticeTitle').value = n.title;
+  document.getElementById('noticeSubject').value = n.subject;
+  document.getElementById('noticeBody').value = n.body;
+  const nlm = document.getElementById('noticeLogoMode');
+  if (nlm) nlm.value = n.logoMode || 'auto';
+}
+
+function deleteNotice(id) {
+  if (!confirm('Delete this notice?')) return;
+  db.notices = db.notices.filter(x => x.id !== id);
+  saveDB();
+  renderNoticesTable();
+  toast('Notice deleted.');
+}
+
+// ================= WHATSAPP / SMS =================
+function buildCommMessage() {
+  const sid = document.getElementById('commStudentSelect').value;
+  const type = document.getElementById('commType').value;
+  const st = db.students.find(s => s.id === sid);
+  const col = (db.settings.collegeName || '').replace(/\s*\n\s*/g, ' ');
+  if (!st) { document.getElementById('commText').value = ''; return; }
+  const t = getStudentFeeTotals(st);
+  let msg = '';
+  if (type === 'due') {
+    msg = `Dear Parent/Student (${st.name}, ${st.course} - ${st.currentTerm}, Adm No: ${st.admNo}),\nReminder from ${col}. Your pending fee balance is:\n- Previous Balance (Carry Forward): ${fmtINR(t.cfTotal)}\n- College Fee Due: ${fmtINR(t.collegeDue)}\n- Hostel Fee Due: ${fmtINR(t.hostelDue)}\n- Uniform Fee Due: ${fmtINR(t.uniformDue)}\nTotal Pending: ${fmtINR(t.totalDue)}.\nPlease deposit at the earliest. Thank you.`;
+  } else if (type === 'welcome') {
+    msg = `Welcome to ${col}!\nAdmission Confirmed for ${st.name} (${st.course} - ${st.currentTerm}, ${st.type}).\nAdmission No: ${st.admNo} | Reg No: ${st.regNo}.\nTotal Assigned Fee: ${fmtINR(t.grandTotal)}.`;
+  } else if (type === 'promoted') {
+    msg = `Congratulations! ${st.name} (${st.admNo}) has been promoted to ${st.course} - ${st.currentTerm} (Session ${st.session}) at ${col}.\nPrevious Balance Carried Forward: ${fmtINR(t.cfTotal)}\nTotal Current Payable: ${fmtINR(t.grandTotal)}.`;
+  } else if (type === 'gatepass') {
+    msg = `Gate Pass Alert - ${col}\nStudent: ${st.name} (${st.course} - ${st.currentTerm}) has been issued a Gate Pass on ${todayISO()}. Contact Office: ${db.settings.phone}.`;
+  } else {
+    msg = `Notice from ${col}:\nDear ${st.name}, `;
+  }
+  document.getElementById('commText').value = msg;
+}
+
+function getCommPhone() {
+  const sid = document.getElementById('commStudentSelect').value;
+  const st = db.students.find(s => s.id === sid);
+  if (!st) return '';
+  const target = document.getElementById('commTarget').value;
+  let num = (target === 'parent' ? (st.parentPhone || st.phone) : (st.phone || st.parentPhone)) || '';
+  num = num.replace(/\D/g, '');
+  if (num.length === 10) num = '91' + num;
+  return num;
+}
+
+function sendWhatsApp() {
+  const num = getCommPhone();
+  const txt = encodeURIComponent(document.getElementById('commText').value);
+  if (!num) { toast('No mobile number found for this student.'); return; }
+  window.open(`https://wa.me/${num}?text=${txt}`, '_blank');
+}
+function sendSMS() {
+  const num = getCommPhone();
+  const txt = encodeURIComponent(document.getElementById('commText').value);
+  if (!num) { toast('No mobile number found.'); return; }
+  window.open(`sms:+${num}?body=${txt}`, '_blank');
+}
+function copyCommText() {
+  navigator.clipboard.writeText(document.getElementById('commText').value);
+  toast('Message copied to clipboard!');
+}
+
+// ================= PRINTING ENGINE (A4) =================
+function getPrintHeaderHTML(customAddr = '', forceBothLogos = null) {
+  const s = db.settings;
+  const leftLogoSrc = s.logo || '';
+  const rightLogoSrc = s.logoRight || s.logo || '';
+  const showRight = forceBothLogos !== null ? forceBothLogos : (s.bothSideLogo !== false);
+  const leftLogoImg = leftLogoSrc ? `<img src="${leftLogoSrc}" alt="Left Logo">` : '';
+  const rightLogoImg = (showRight && rightLogoSrc) ? `<img src="${rightLogoSrc}" alt="Right Logo">` : '';
+  const addrParts = [s.collegeSub ? `<b>${s.collegeSub}</b>` : '', s.address || ''].filter(Boolean);
+  const topAddrLine = customAddr || addrParts.join(' | ');
+  const contactParts = [
+    s.phone ? `Phone: ${s.phone}` : '',
+    s.email ? `Email: ${s.email}` : ''
+  ].filter(Boolean).join(' | ');
+  return `
+    <div class="p-header">
+      ${leftLogoImg}
+      <div class="p-header-text">
+        <h1 style="font-size:${Number(s.collegeTitleSize) || 26}px;color:${s.collegeTitleColor || '#dc2626'};">${(s.collegeName || '').replace(/\n/g, '<br>')}</h1>
+        ${topAddrLine ? `<p class="p-addr-line">${topAddrLine}</p>` : ''}
+        ${contactParts ? `<p>${contactParts}</p>` : ''}
+        ${s.affiliation ? `<p class="p-affil-line">${s.affiliation}</p>` : ''}
+      </div>
+      ${rightLogoImg}
+    </div>
+  `;
+}
+
+function triggerPrint(html) {
+  document.getElementById('printArea').innerHTML = html;
+  setTimeout(() => window.print(), 120);
+}
+
+function printDocument(type, studentId) {
+  const st = db.students.find(s => s.id === studentId);
+  if (!st) return;
+  const t = getStudentFeeTotals(st);
+  const issueDate = document.getElementById('certDate')?.value || todayISO();
+  const photoBox = st.photo ? `<img src="${st.photo}" style="width:95px;height:115px;object-fit:cover;border:1px solid #000;">` : `<div style="width:95px;height:115px;border:1px solid #000;display:flex;align-items:center;justify-content:center;font-size:11px;">PHOTO</div>`;
+
+  const colFullName = (db.settings.collegeName || '').replace(/\s*\n\s*/g, ' ');
+  const colLocation = [db.settings.collegeSub, db.settings.address].filter(Boolean).join(', ');
+  const cLogoMode = document.getElementById('certLogoMode')?.value || 'auto';
+  const forceDocLogo = cLogoMode === 'both' ? true : (cLogoMode === 'one' ? false : null);
+  let body = '';
+  if (type === 'admission') {
+    body = `
+      <div class="print-page">
+        ${getPrintHeaderHTML('', forceDocLogo)}
+        <div class="p-title">STUDENT ADMISSION FORM (${st.course} • ${st.currentTerm} • SESSION ${st.session})</div>
+        <div class="p-body">
+          <div style="display:flex;justify-content:space-between;gap:14px;margin-bottom:10px;">
+            <table class="p-table" style="margin:0;">
+              <tr><th>Admission No</th><td><b>${st.admNo}</b></td><th>Registration No</th><td>${st.regNo}</td></tr>
+              <tr><th>Admission Date</th><td>${st.admDate}</td><th>Student Type</th><td><b>${st.type}</b></td></tr>
+              <tr><th>Course & Term</th><td><b>${st.course} (${st.currentTerm})</b></td><th>Category / Gender</th><td>${st.category} / ${st.gender}</td></tr>
+              <tr><th>Student Name</th><td colspan="3"><b>${st.name}</b></td></tr>
+              <tr><th>Father's Name</th><td>${st.father}</td><th>Mother's Name</th><td>${st.mother}</td></tr>
+            </table>
+            <div>${photoBox}</div>
+          </div>
+          <table class="p-table">
+            <tr><th>Date of Birth</th><td>${st.dob}</td><th>Aadhaar No</th><td>${st.aadhaar}</td></tr>
+            <tr><th>Student Mobile</th><td>${st.phone}</td><th>Parent Mobile</th><td>${st.parentPhone}</td></tr>
+            <tr><th>Address</th><td colspan="3">${st.address}</td></tr>
+          </table>
+          <h4 style="margin:8px 0 6px;font-size:13px;">Assigned Fee Structure (${st.course} — ${st.type})</h4>
+          <table class="p-table">
+            <tr><th>1. College Fee Breakdown</th><th>Amount</th><th>2. Hostel & 3. Uniform</th><th>Amount</th></tr>
+            <tr><td>Reg Fee: ${fmtINR(st.fees.regFee)} | Adm Fee: ${fmtINR(st.fees.admFee)}</td><td>${fmtINR(st.fees.regFee + st.fees.admFee)}</td><td><b>Hostel Fee</b></td><td><b>${fmtINR(t.currHostel)}</b></td></tr>
+            <tr><td>Tuition Fee: ${fmtINR(st.fees.tuitionFee)} | Caution: ${fmtINR(st.fees.cautionMoney)}</td><td>${fmtINR(st.fees.tuitionFee + st.fees.cautionMoney)}</td><td><b>Uniform + Kit</b></td><td><b>${fmtINR(t.currUniform)}</b></td></tr>
+            <tr><td>Transport: ${fmtINR(st.fees.transportFee)} | Moot Court: ${fmtINR(st.fees.clinicalFee)}</td><td>${fmtINR(st.fees.transportFee + st.fees.clinicalFee)}</td><td>Previous Carry-Forward Bal</td><td>${fmtINR(t.cfTotal)}</td></tr>
+            <tr><td>Dev: ${fmtINR(st.fees.devFee)} | Lib: ${fmtINR(st.fees.libFee)} | Misc: ${fmtINR(st.fees.miscFee)}</td><td>${fmtINR(st.fees.devFee + st.fees.libFee + st.fees.miscFee)}</td><td>Paid / Balance Due</td><td>${fmtINR(t.totalPaid)} / <b>${fmtINR(t.totalDue)}</b></td></tr>
+            <tr><th>Total College Fee</th><th>${fmtINR(t.currCollege)}</th><th>GRAND TOTAL PAYABLE</th><th>${fmtINR(t.grandTotal)}</th></tr>
+          </table>
+          <p style="font-size:11.5px;margin-top:8px;line-height:1.5;"><b>Declaration:</b> I hereby declare that all information provided above is true and I agree to abide by all rules and regulations of ${colFullName}.</p>
+        </div>
+        <div class="p-sign-row">
+          <div class="p-sign-box">Student Signature</div>
+          <div class="p-sign-box">Parent / Guardian</div>
+          <div class="p-sign-box">${getPrincipalStampHTML()}${db.settings.principal}</div>
+        </div>
+      </div>`;
+  } else if (type === 'regslip') {
+    body = `
+      <div class="print-page">
+        ${getPrintHeaderHTML('', forceDocLogo)}
+        <div class="p-title">STUDENT REGISTRATION SLIP</div>
+        <div class="p-body">
+          <div style="display:flex;justify-content:space-between;gap:14px;">
+            <table class="p-table">
+              <tr><th>Registration No</th><td><b>${st.regNo}</b></td><th>Admission No</th><td>${st.admNo}</td></tr>
+              <tr><th>Student Name</th><td colspan="3"><b>${st.name}</b></td></tr>
+              <tr><th>Father's Name</th><td>${st.father}</td><th>Course & Term</th><td>${st.course} - ${st.currentTerm} (${st.session})</td></tr>
+              <tr><th>Student Type</th><td>${st.type}</td><th>Mobile</th><td>${st.phone}</td></tr>
+              <tr><th>Total Payable</th><td>${fmtINR(t.grandTotal)}</td><th>Paid / Due</th><td>${fmtINR(t.totalPaid)} / ${fmtINR(t.totalDue)}</td></tr>
+            </table>
+            <div>${photoBox}</div>
+          </div>
+          <p style="font-size:12px;margin-top:16px;color:#334155;">This registration slip confirms provisional enrollment for academic session <b>${st.session}</b>.</p>
+        </div>
+        <div class="p-sign-row">
+          <div class="p-sign-box">Student Signature</div>
+          <div class="p-sign-box">Admission In-charge</div>
+          <div class="p-sign-box">${getPrincipalStampHTML()}${db.settings.principal}</div>
+        </div>
+      </div>`;
+  } else if (type === 'bonafide') {
+    const purpose = document.getElementById('cx_purpose')?.value || 'Official Purpose';
+    body = `
+      <div class="print-page">
+        ${getPrintHeaderHTML('', forceDocLogo)}
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:8px;">
+          <span><b>Ref No:</b> ALC/BON/${st.admNo}</span>
+          <span><b>Date:</b> ${issueDate}</span>
+        </div>
+        <div class="p-title">BONAFIDE CERTIFICATE</div>
+        <div class="p-body">
+          <div style="float:right;margin-left:14px;margin-bottom:8px;">${photoBox}</div>
+          <p style="font-size:14.5px;line-height:2;text-align:justify;margin-top:14px;">
+            This is to certify that Mr./Ms. <b>${st.name}</b>, Son/Daughter of <b>Shri ${st.father}</b>, bearing Admission No. <b>${st.admNo}</b> and Registration No. <b>${st.regNo}</b>, is a bonafide regular student of <b>${st.course} (${st.currentTerm})</b> (Session <b>${st.session}</b>) at <b>${colFullName}${colLocation ? ', ' + colLocation : ''}</b>.
+            <br><br>
+            As per college records, his/her Date of Birth is <b>${st.dob || '________'}</b> and residential status is <b>${st.type}</b>. He/She bears a good moral character.
+            <br><br>
+            This certificate is issued on his/her request for the purpose of <b>${purpose}</b>.
+          </p>
+        </div>
+        <div class="p-sign-row">
+          <div class="p-sign-box">${getOfficeStampHTML()}Office Seal</div>
+          <div class="p-sign-box">${getPrincipalStampHTML()}${db.settings.principal}<br><span style="font-size:10.5px;font-weight:400;">${colFullName}</span></div>
+        </div>
+      </div>`;
+  } else if (type === 'tc') {
+    const tcNo = document.getElementById('cx_tcNo')?.value || 'TC/2026/001';
+    const conduct = document.getElementById('cx_conduct')?.value || 'Good';
+    const reason = document.getElementById('cx_reason')?.value || 'Course Completed';
+    const dues = document.getElementById('cx_dues')?.value || 'All Dues Cleared';
+    body = `
+      <div class="print-page">
+        ${getPrintHeaderHTML('', forceDocLogo)}
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;">
+          <span><b>TC No:</b> ${tcNo}</span><span><b>Date of Issue:</b> ${issueDate}</span>
+        </div>
+        <div class="p-title">TRANSFER CERTIFICATE (T.C.)</div>
+        <div class="p-body">
+          <table class="p-table">
+            <tr><th style="width:42%;">1. Student Full Name</th><td><b>${st.name}</b></td></tr>
+            <tr><th>2. Father's Name</th><td>${st.father}</td></tr>
+            <tr><th>3. Mother's Name</th><td>${st.mother}</td></tr>
+            <tr><th>4. Admission No / Registration No</th><td>${st.admNo} / ${st.regNo}</td></tr>
+            <tr><th>5. Date of Birth</th><td>${st.dob}</td></tr>
+            <tr><th>6. Course & Last Term</th><td>${st.course} (${st.currentTerm} - ${st.session})</td></tr>
+            <tr><th>7. Date of Admission</th><td>${st.admDate}</td></tr>
+            <tr><th>8. Category / Gender</th><td>${st.category} / ${st.gender}</td></tr>
+            <tr><th>9. Fee & Library Dues Status</th><td><b>${dues}</b></td></tr>
+            <tr><th>10. General Conduct & Character</th><td>${conduct}</td></tr>
+            <tr><th>11. Reason for Leaving</th><td>${reason}</td></tr>
+          </table>
+        </div>
+        <div class="p-sign-row">
+          <div class="p-sign-box">Prepared By</div>
+          <div class="p-sign-box">Verified By</div>
+          <div class="p-sign-box">${getPrincipalStampHTML()}${db.settings.principal}</div>
+        </div>
+      </div>`;
+  } else if (type === 'hostel_pass' || type === 'college_pass') {
+    const isHostel = type === 'hostel_pass';
+    const outT = document.getElementById('cx_outTime')?.value || todayISO();
+    const retT = document.getElementById('cx_retTime')?.value || todayISO();
+    const purp = document.getElementById('cx_purpose')?.value || 'Personal';
+    const guard = document.getElementById('cx_guardian')?.value || 'Self';
+    body = `
+      <div class="print-page">
+        ${getPrintHeaderHTML('', forceDocLogo)}
+        <div class="p-title">${isHostel ? 'HOSTEL GATE PASS' : 'COLLEGE GATE PASS'}</div>
+        <div class="p-body">
+          <div style="display:flex;justify-content:space-between;gap:14px;">
+            <table class="p-table">
+              <tr><th>Student Name</th><td><b>${st.name}</b></td><th>Adm No</th><td>${st.admNo}</td></tr>
+              <tr><th>Father's Name</th><td>${st.father}</td><th>Course / Term</th><td>${st.course} (${st.currentTerm})</td></tr>
+              <tr><th>Student Mobile</th><td>${st.phone}</td><th>Parent Mobile</th><td>${st.parentPhone}</td></tr>
+              <tr><th>Out Date & Time</th><td><b>${outT}</b></td><th>Return Date & Time</th><td><b>${retT}</b></td></tr>
+              <tr><th>Purpose / Reason</th><td colspan="3">${purp}</td></tr>
+              <tr><th>Accompanied By</th><td colspan="3">${guard}</td></tr>
+            </table>
+            <div>${photoBox}</div>
+          </div>
+        </div>
+        <div class="p-sign-row">
+          <div class="p-sign-box">Student Sign</div>
+          <div class="p-sign-box">${getOfficeStampHTML()}${isHostel ? 'Hostel Warden' : 'Class Coordinator'}</div>
+          <div class="p-sign-box">Security Gate / Principal</div>
+        </div>
+      </div>`;
+  }
+  triggerPrint(body);
+}
+
+function printReceipt(receiptId) {
+  const r = db.receipts.find(x => x.id === receiptId);
+  if (!r) return;
+  const st = db.students.find(s => s.id === r.studentId) || {};
+  const t = st.id ? getStudentFeeTotals(st) : { totalPaid: r.amount, totalDue: 0, cfTotal: 0 };
+  const copyBlock = (label) => `
+    <div class="p-half-card">
+      ${getPrintHeaderHTML()}
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;">
+        <span><b>Receipt No:</b> ${r.receiptNo}</span>
+        <span style="font-weight:700;border:1px solid #334155;padding:1px 8px;border-radius:3px;">${label}</span>
+        <span><b>Date:</b> ${r.date}</span>
+      </div>
+      <div class="p-body">
+        <table class="p-table" style="margin-bottom:4px;">
+          <tr><th>Student Name</th><td><b>${st.name || '-'}</b></td><th>Admission No</th><td>${st.admNo || '-'}</td></tr>
+          <tr><th>Father's Name</th><td>${st.father || '-'}</td><th>Course / Term / Type</th><td>${st.course || '-'} (${r.term || st.currentTerm || '-'}) | ${st.type || '-'}</td></tr>
+          <tr><th>Fee Section</th><td><b>${r.section}</b></td><th>Fee Head</th><td><b>${r.head}</b></td></tr>
+          <tr><th>Payment Mode</th><td>${r.mode}</td><th>Amount Paid</th><td style="font-size:15px;"><b>${fmtINR(r.amount)}</b></td></tr>
+          <tr><th>Remarks</th><td>${r.remarks || '-'}</td><th>Net Balance Due</th><td><b>${fmtINR(t.totalDue)}</b></td></tr>
+        </table>
+      </div>
+      <div class="p-sign-row" style="padding-top:16px;">
+        <div class="p-sign-box">Depositor Signature</div>
+        <div class="p-sign-box">${getOfficeStampHTML()}Office Seal</div>
+        <div class="p-sign-box">Accountant / Cashier</div>
+      </div>
+    </div>
+  `;
+  triggerPrint(`<div class="print-page print-dual">${copyBlock('STUDENT COPY')}<div style="border-top:1px dashed #64748b;margin:6px 0;text-align:center;font-size:10px;color:#475569;">✂ Cut Here</div>${copyBlock('OFFICE COPY')}</div>`);
+}
+
+function printNotice(noticeId) {
+  const n = db.notices.find(x => x.id === noticeId);
+  if (!n) return;
+  const colFullName = (db.settings.collegeName || '').replace(/\s*\n\s*/g, ' ');
+  const lMode = n.logoMode || document.getElementById('noticeLogoMode')?.value || 'auto';
+  const forceNoticeLogo = lMode === 'both' ? true : (lMode === 'one' ? false : null);
+  const html = `
+    <div class="print-page">
+      ${getPrintHeaderHTML('', forceNoticeLogo)}
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;margin:4px 0 10px;">
+        <span><b>Ref. No.:</b> ${n.ref}</span>
+        <span><b>Date:</b> ${n.date}</span>
+      </div>
+      <div class="p-title">${n.title}</div>
+      <div class="p-body">
+        ${n.subject ? `<p style="font-size:14.5px;margin-bottom:14px;line-height:1.45;"><b>Subject:</b> ${n.subject}</p>` : ''}
+        <div style="font-size:14.5px;line-height:1.85;white-space:pre-wrap;text-align:left;">${n.body}</div>
+      </div>
+      <div class="p-sign-row">
+        <div class="p-sign-box">${getOfficeStampHTML()}Office Seal</div>
+        <div class="p-sign-box">${getPrincipalStampHTML()}${db.settings.principal}<br><span style="font-size:11px;font-weight:500;">${colFullName}</span></div>
+      </div>
+    </div>`;
+  triggerPrint(html);
+}
+
+// ================= SETTINGS & COURSE FEE EDITOR =================
+function loadSettingsUI() {
+  const s = db.settings;
+  document.getElementById('sideCollegeName').innerHTML = (s.collegeName || '').replace(/\n/g, '<br>');
+  document.getElementById('sideCollegeSub').textContent = s.collegeSub;
+  if (s.logo) {
+    document.getElementById('sideLogo').src = s.logo;
+    document.getElementById('sideLogo').style.display = 'inline-block';
+    document.getElementById('sideLogoFallback').style.display = 'none';
+  }
+  document.getElementById('setCollegeName').value = s.collegeName;
+  const ctsEl = document.getElementById('setCollegeTitleSize');
+  if (ctsEl) ctsEl.value = String(s.collegeTitleSize || 26);
+  const ctcEl = document.getElementById('setCollegeTitleColor');
+  if (ctcEl) ctcEl.value = s.collegeTitleColor || '#dc2626';
+  document.getElementById('setCollegeSub').value = s.collegeSub;
+  document.getElementById('setAddress').value = s.address;
+  document.getElementById('setPhone').value = s.phone;
+  document.getElementById('setEmail').value = s.email;
+  document.getElementById('setAffiliation').value = s.affiliation;
+  document.getElementById('setPrincipal').value = s.principal;
+  updateLogoSidesUI();
+  const apEl = document.getElementById('setAdminPass');
+  const epEl = document.getElementById('setEmpPass');
+  if (apEl) apEl.value = (db.auth && db.auth.adminPass) || 'admin123';
+  if (epEl) epEl.value = (db.auth && db.auth.employeePass) || 'staff123';
+  renderStampPreviewUI();
+  syncLoginBranding();
+  loadCourseFeeEditor();
+}
+
+function loadCourseFeeEditor() {
+  const course = document.getElementById('setCourseSelect').value;
+  const cf = getCourseFeeTemplate(course);
+  Object.keys(cf).forEach(k => {
+    const el = document.getElementById('def_' + k);
+    if (el) el.value = cf[k];
+  });
+  const colNoTrans = COLLEGE_HEADS.filter(h => h.key !== 'transportFee').reduce((s, h) => s + (Number(cf[h.key]) || 0), 0);
+  const hostellerTot = colNoTrans + (Number(cf.hostelFee) || 0) + (Number(cf.uniformFee) || 0);
+  const dayTot = colNoTrans + (Number(cf.transportFee) || 0) + (Number(cf.uniformFee) || 0);
+  document.getElementById('courseFeeSummaryPreview').innerHTML =
+    `<b>${course} Preview:</b> 🏠 Hosteller Total = <b>${fmtINR(hostellerTot)}</b> | 🚌 Day Scholar Total = <b>${fmtINR(dayTot)}</b>`;
+}
+
+function saveCourseFeeStructure() {
+  const course = document.getElementById('setCourseSelect').value;
+  const updated = {};
+  [...COLLEGE_HEADS, ...HOSTEL_HEADS, ...UNIFORM_HEADS].forEach(h => {
+    updated[h.key] = Number(document.getElementById('def_' + h.key).value) || 0;
+  });
+  db.courseFees[course] = updated;
+  saveDB();
+  loadCourseFeeEditor();
+  toast(`${course} fee structure saved successfully!`);
+}
+
+function saveSettings() {
+  db.settings.collegeName = document.getElementById('setCollegeName').value.trim();
+  const ctsEl = document.getElementById('setCollegeTitleSize');
+  if (ctsEl) db.settings.collegeTitleSize = Number(ctsEl.value) || 26;
+  const ctcEl = document.getElementById('setCollegeTitleColor');
+  if (ctcEl) db.settings.collegeTitleColor = ctcEl.value || '#dc2626';
+  db.settings.collegeSub = document.getElementById('setCollegeSub').value.trim();
+  db.settings.address = document.getElementById('setAddress').value.trim();
+  db.settings.phone = document.getElementById('setPhone').value.trim();
+  db.settings.email = document.getElementById('setEmail').value.trim();
+  db.settings.affiliation = document.getElementById('setAffiliation').value.trim();
+  db.settings.principal = document.getElementById('setPrincipal').value.trim();
+  const bslEl = document.getElementById('setBothSideLogo');
+  if (bslEl) db.settings.bothSideLogo = bslEl.checked;
+  const stChk = document.getElementById('setShowStampOnPrint');
+  if (stChk) db.settings.showStampOnPrint = stChk.checked;
+  saveDB();
+  loadSettingsUI();
+  updateAutoBackupUI();
+  toast('College profile & print header saved!');
+}
+
+function handleLogoUpload(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    db.settings.logo = ev.target.result;
+    saveDB();
+    loadSettingsUI();
+    renderGatePassLivePreview();
+    toast('College logo updated (Left & Right)!');
+  };
+  r.readAsDataURL(f);
+}
+
+function handleRightLogoUpload(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    db.settings.logoRight = ev.target.result;
+    db.settings.bothSideLogo = true;
+    saveDB();
+    loadSettingsUI();
+    renderGatePassLivePreview();
+    toast('Right side logo updated!');
+  };
+  r.readAsDataURL(f);
+}
+
+
+function getPrincipalStampHTML(extraStyle = '') {
+  const s = db.settings || {};
+  if (!s.principalStamp || s.showStampOnPrint === false) return '';
+  return `<img src="${s.principalStamp}" alt="Principal Signature / Stamp" style="max-height:54px;max-width:130px;object-fit:contain;display:block;margin:0 auto 4px;${extraStyle}">`;
+}
+
+function getOfficeStampHTML(extraStyle = '') {
+  const s = db.settings || {};
+  const src = s.officeStamp || s.stamp || '';
+  if (!src || s.showStampOnPrint === false) return '';
+  return `<img src="${src}" alt="Office Stamp" style="max-height:54px;max-width:130px;object-fit:contain;display:block;margin:0 auto 4px;${extraStyle}">`;
+}
+
+function getStampImgHTML(extraStyle = '') {
+  return getOfficeStampHTML(extraStyle) || getPrincipalStampHTML(extraStyle);
+}
+
+function renderStampPreviewUI() {
+  const pBox = document.getElementById('setPrincipalStampPreview');
+  const oBox = document.getElementById('setOfficeStampPreview');
+  const s = db.settings || {};
+  if (pBox) {
+    pBox.innerHTML = s.principalStamp
+      ? `<img src="${s.principalStamp}" alt="Principal Stamp" style="width:100%;height:100%;object-fit:contain;">`
+      : 'No Principal Sign/Stamp';
+  }
+  const offSrc = s.officeStamp || s.stamp || '';
+  if (oBox) {
+    oBox.innerHTML = offSrc
+      ? `<img src="${offSrc}" alt="Office Stamp" style="width:100%;height:100%;object-fit:contain;">`
+      : 'No Office Stamp';
+  }
+  const chk = document.getElementById('setShowStampOnPrint');
+  if (chk) chk.checked = s.showStampOnPrint !== false;
+}
+
+function processStampFile(file, targetField, successMsg) {
+  const r = new FileReader();
+  r.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxW = 300, maxH = 180;
+      const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
+      canvas.width = Math.max(1, Math.round(img.width * ratio));
+      canvas.height = Math.max(1, Math.round(img.height * ratio));
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const isPng = file.type === 'image/png';
+      db.settings[targetField] = canvas.toDataURL(isPng ? 'image/png' : 'image/jpeg', 0.85);
+      saveDB();
+      renderStampPreviewUI();
+      toast(successMsg);
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(file);
+}
+
+function handlePrincipalStampUpload(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  processStampFile(f, 'principalStamp', '✅ Principal Signature / Stamp uploaded!');
+  e.target.value = '';
+}
+
+function handleOfficeStampUpload(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  processStampFile(f, 'officeStamp', '✅ Office Stamp uploaded!');
+  e.target.value = '';
+}
+
+function clearPrincipalStamp() {
+  db.settings.principalStamp = '';
+  saveDB();
+  renderStampPreviewUI();
+  toast('Principal Signature / Stamp removed.');
+}
+
+function clearOfficeStamp() {
+  db.settings.officeStamp = '';
+  db.settings.stamp = '';
+  saveDB();
+  renderStampPreviewUI();
+  toast('Office Stamp removed.');
+}
+
+function syncStampSettingLive() {
+  const chk = document.getElementById('setShowStampOnPrint');
+  if (chk) {
+    db.settings.showStampOnPrint = chk.checked;
+    saveDB();
+  }
+}
+
+function clearRightLogo() {
+  db.settings.logoRight = '';
+  saveDB();
+  loadSettingsUI();
+  renderGatePassLivePreview();
+  toast('Right side custom logo cleared (will mirror Left Logo).');
+}
+
+function updateLogoSidesUI() {
+  const both = db.settings.bothSideLogo !== false;
+  const topBtn = document.getElementById('btnToggleLogoSides');
+  if (topBtn) {
+    topBtn.innerHTML = both ? '🖼 Print Logo: <b>Both Sides</b>' : '🖼 Print Logo: <b>1 Side Only</b>';
+    topBtn.style.background = both ? '#dbeafe' : '#fef3c7';
+    topBtn.style.borderColor = both ? '#1d4ed8' : '#d97706';
+    topBtn.style.color = both ? '#1e3a8a' : '#92400e';
+  }
+  const bslEl = document.getElementById('setBothSideLogo');
+  if (bslEl) bslEl.checked = both;
+  const gpBoth = document.getElementById('gpBothLogos');
+  if (gpBoth) gpBoth.checked = both;
+}
+
+function toggleGlobalLogoSides() {
+  db.settings.bothSideLogo = !(db.settings.bothSideLogo !== false);
+  saveDB();
+  updateLogoSidesUI();
+  renderGatePassLivePreview();
+  toast(db.settings.bothSideLogo
+    ? '✅ Print Logo: Both Sides (Left & Right) Enabled'
+    : '✅ Print Logo: 1 Side Only (Left) Enabled');
+}
+
+function exportBackup() {
+  const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Avadh_Law_College_ERP_Backup_${todayISO()}.json`;
+  a.click();
+  toast('Backup JSON downloaded!');
+}
+
+function importBackup(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!data.students) throw new Error('Invalid backup file');
+      localStorage.setItem(DB_KEY, JSON.stringify(data));
+      db = loadDB();
+      saveDB();
+      refreshAllViews();
+      loadSettingsUI();
+      toast('Backup restored successfully!');
+    } catch (err) {
+      alert('Invalid JSON backup file!');
+    }
+  };
+  r.readAsText(f);
+}
+
+function factoryReset() {
+  if (!confirm('WARNING: This will erase ALL students, receipts, and notices. Export a backup first! Continue?')) return;
+  localStorage.removeItem(DB_KEY);
+  db = JSON.parse(JSON.stringify(DEFAULT_DB));
+  refreshAllViews();
+  loadSettingsUI();
+  toast('All data cleared.');
+}
+
+// ================= RENDERERS =================
+function renderStudentsTable() {
+  const q = (document.getElementById('studentSearch')?.value || '').toLowerCase();
+  const cf = document.getElementById('studentCourseFilter')?.value || '';
+  const tf = document.getElementById('studentTypeFilter')?.value || '';
+  const filtered = db.students.filter(s => {
+    const matchQ = !q || s.name.toLowerCase().includes(q) || s.admNo.toLowerCase().includes(q) || (s.phone || '').includes(q);
+    const matchC = !cf || s.course === cf;
+    const matchT = !tf || s.type === tf;
+    return matchQ && matchC && matchT;
+  });
+  const tb = document.getElementById('studentsTableBody');
+  if (!filtered.length) {
+    tb.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px;">No students found. Click "New Admission" to add a student.</td></tr>';
+    return;
+  }
+  tb.innerHTML = filtered.map(s => {
+    const t = getStudentFeeTotals(s);
+    const thumb = s.photo ? `<img src="${s.photo}" style="width:36px;height:42px;object-fit:cover;border-radius:4px;">` : '👤';
+    return `
+      <tr>
+        <td>${thumb}</td>
+        <td><b>${s.admNo}</b><br><span style="font-size:11px;color:var(--muted);">${s.regNo}</span></td>
+        <td><b>${s.name}</b><br><span style="font-size:11.5px;color:var(--muted);">S/D of ${s.father} | ${s.phone}</span></td>
+        <td>
+          <b>${s.course}</b> <span class="badge badge-purple">${s.currentTerm}</span><br>
+          <span class="badge ${s.type==='Hosteller'?'badge-amber':'badge-blue'}">${s.type}</span>
+        </td>
+        <td>
+          ${fmtINR(t.grandTotal)}
+          ${t.cfTotal > 0 ? `<br><span style="font-size:10.5px;color:var(--danger);">Prev Bal: ${fmtINR(t.cfTotal)}</span>` : ''}
+        </td>
+        <td style="color:var(--success);font-weight:600;">${fmtINR(t.totalPaid)}</td>
+        <td style="color:var(--danger);font-weight:700;">${fmtINR(t.totalDue)}</td>
+        <td><button class="btn btn-outline btn-sm" onclick="openDocsModal('${s.id}')">📎 ${(s.docs||[]).length}</button></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-primary btn-sm admin-only" onclick="editStudent('${s.id}')">Edit</button>
+            <button class="btn btn-purple btn-sm" onclick="openHistoryModal('${s.id}')">History</button>
+            <button class="btn btn-teal btn-sm" onclick="printDocument('admission','${s.id}')">Print</button>
+            <button class="btn btn-danger btn-sm admin-only" onclick="deleteStudent('${s.id}')">Del</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderReceiptsTable() {
+  const q = (document.getElementById('receiptSearch')?.value || '').toLowerCase();
+  const tb = document.getElementById('receiptsTableBody');
+  const rows = db.receipts.filter(r => {
+    const st = db.students.find(s => s.id === r.studentId);
+    const nm = st ? st.name.toLowerCase() : '';
+    return !q || r.receiptNo.toLowerCase().includes(q) || nm.includes(q) || r.head.toLowerCase().includes(q);
+  });
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:18px;">No fee receipts recorded yet.</td></tr>';
+    return;
+  }
+  tb.innerHTML = rows.map(r => {
+    const st = db.students.find(s => s.id === r.studentId);
+    return `
+      <tr>
+        <td><b>${r.receiptNo}</b></td>
+        <td>${r.date}</td>
+        <td>${st ? st.name + ' (' + st.admNo + ')' : 'Deleted Student'}</td>
+        <td><span class="badge badge-purple">${r.term || '-'}</span></td>
+        <td><span class="badge badge-blue">${r.section}</span></td>
+        <td>${r.head}</td>
+        <td>${r.mode}</td>
+        <td><b>${fmtINR(r.amount)}</b></td>
+        <td>
+          <div class="btn-group">
+            <button class="btn btn-teal btn-sm" onclick="printReceipt('${r.id}')">Print</button>
+            <button class="btn btn-primary btn-sm admin-only" onclick="editReceipt('${r.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm admin-only" onclick="deleteReceipt('${r.id}')">Del</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renderNoticesTable() {
+  const tb = document.getElementById('noticesTableBody');
+  if (!db.notices.length) {
+    tb.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:18px;">No saved notices yet.</td></tr>';
+    return;
+  }
+  tb.innerHTML = db.notices.map(n => `
+    <tr>
+      <td><b>${n.ref}</b><br><span style="font-size:11px;color:var(--muted);">${n.date}</span></td>
+      <td><b>${n.title}</b><br><span style="font-size:11.5px;color:var(--muted);">${n.subject}</span></td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-teal btn-sm" onclick="printNotice('${n.id}')">Print</button>
+          <button class="btn btn-primary btn-sm" onclick="editNotice('${n.id}')">Edit</button>
+          <button class="btn btn-danger btn-sm admin-only" onclick="deleteNotice('${n.id}')">Del</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function populateStudentDropdowns() {
+  const opts = '<option value="">-- Select Student --</option>' +
+    db.students.map(s => `<option value="${s.id}">${s.name} (${s.admNo} - ${s.course} ${s.currentTerm}) [${s.type}]</option>`).join('');
+  ['feeStudentSelect', 'certStudentSelect', 'commStudentSelect', 'gpStudentSelect'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const prev = el.value;
+    el.innerHTML = opts;
+    if (prev) el.value = prev;
+  });
+}
+
+function renderDashboard() {
+  const hostellers = db.students.filter(s => s.type === 'Hosteller').length;
+  const dayScholars = db.students.length - hostellers;
+  let colPaid = 0, hosPaid = 0, uniPaid = 0, totalDue = 0, totalCF = 0;
+  db.receipts.forEach(r => {
+    if (r.section === 'College Fee') colPaid += Number(r.amount || 0);
+    else if (r.section === 'Hostel Fee') hosPaid += Number(r.amount || 0);
+    else if (r.section === 'Uniform Fee') uniPaid += Number(r.amount || 0);
+  });
+  db.students.forEach(s => {
+    const t = getStudentFeeTotals(s);
+    totalDue += t.totalDue;
+    totalCF += t.cfTotal;
+  });
+
+  document.getElementById('stTotalStudents').textContent = db.students.length;
+  document.getElementById('stHostelSplit').textContent = `Hosteller: ${hostellers} | Day Scholar: ${dayScholars}`;
+  document.getElementById('stTotalCollected').textContent = fmtINR(colPaid + hosPaid + uniPaid);
+  document.getElementById('stCollectedSplit').textContent = `Col: ${fmtINR(colPaid)} | Hos: ${fmtINR(hosPaid)} | Uni: ${fmtINR(uniPaid)}`;
+  document.getElementById('stTotalDue').textContent = fmtINR(totalDue);
+  document.getElementById('stCarrySub').textContent = `Includes Previous Carry-Forward: ${fmtINR(totalCF)}`;
+  document.getElementById('stReceiptsCount').textContent = db.receipts.length;
+  document.getElementById('stNoticesCount').textContent = `Saved Notices: ${db.notices.length}`;
+
+  document.getElementById('dashRecentStudents').innerHTML = db.students.slice(0, 6).map(s => {
+    const t = getStudentFeeTotals(s);
+    return `<tr><td>${s.admNo}</td><td><b>${s.name}</b></td><td>${s.course} (${s.currentTerm})</td><td>${s.type}</td><td style="color:var(--danger);font-weight:700;">${fmtINR(t.totalDue)}</td></tr>`;
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);">No admissions yet</td></tr>';
+
+  document.getElementById('dashRecentReceipts').innerHTML = db.receipts.slice(0, 6).map(r => {
+    const st = db.students.find(s => s.id === r.studentId);
+    return `<tr><td>${r.receiptNo}</td><td>${st ? st.name : '-'}</td><td>${r.term || ''} / ${r.section}</td><td><b>${fmtINR(r.amount)}</b></td><td>${r.date}</td></tr>`;
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);">No receipts yet</td></tr>';
+}
+
+function refreshAllViews() {
+  renderDashboard();
+  renderStudentsTable();
+  renderReceiptsTable();
+  renderNoticesTable();
+  renderPromotionTable();
+  populateStudentDropdowns();
+  renderReportPreview();
+}
+
+
+// ================= REPORTS & DOWNLOADS ENGINE =================
+let activePreviewReport = 'students';
+
+function selectPreviewReport(type) {
+  activePreviewReport = type;
+  renderReportPreview();
+}
+
+function getReportData(type) {
+  const cf = document.getElementById('repCourseFilter')?.value || '';
+  const tf = document.getElementById('repTypeFilter')?.value || '';
+  const sf = document.getElementById('repSectionFilter')?.value || '';
+  const fromD = document.getElementById('repFromDate')?.value || '';
+  const toD = document.getElementById('repToDate')?.value || '';
+
+  const filteredStudents = db.students.filter(s => {
+    return (!cf || s.course === cf) && (!tf || s.type === tf);
+  });
+
+  if (type === 'students') {
+    const headers = ['Adm No', 'Reg No', 'Student Name', 'Father Name', 'Course', 'Term', 'Session', 'Type', 'Mobile', 'Parent Mobile', 'Prev Bal (INR)', 'Total Payable (INR)', 'Paid (INR)', 'Balance Due (INR)'];
+    const rows = filteredStudents.map(s => {
+      const t = getStudentFeeTotals(s);
+      return [s.admNo, s.regNo, s.name, s.father, s.course, s.currentTerm, s.session, s.type, s.phone, s.parentPhone, t.cfTotal, t.grandTotal, t.totalPaid, t.totalDue];
+    });
+    return { title: 'All Students Master Report', filename: 'Students_Master_Report', headers, rows };
+  }
+
+  if (type === 'receipts') {
+    const headers = ['Receipt No', 'Date', 'Adm No', 'Student Name', 'Course', 'Term', 'Fee Section', 'Fee Head', 'Payment Mode', 'Amount (INR)', 'Remarks'];
+    const rows = db.receipts.filter(r => {
+      const st = db.students.find(s => s.id === r.studentId);
+      if (cf && (!st || st.course !== cf)) return false;
+      if (tf && (!st || st.type !== tf)) return false;
+      if (sf && r.section !== sf) return false;
+      if (fromD && r.date < fromD) return false;
+      if (toD && r.date > toD) return false;
+      return true;
+    }).map(r => {
+      const st = db.students.find(s => s.id === r.studentId) || {};
+      return [r.receiptNo, r.date, st.admNo || '-', st.name || 'Deleted', st.course || '-', r.term || '-', r.section, r.head, r.mode, Number(r.amount || 0), r.remarks || ''];
+    });
+    return { title: 'Fee Collection / Receipts Register', filename: 'Fee_Collection_Register', headers, rows };
+  }
+
+  if (type === 'dues') {
+    const headers = ['Adm No', 'Student Name', 'Course', 'Term', 'Type', 'Mobile', 'Parent Mobile', 'College Due', 'Hostel Due', 'Uniform Due', 'Prev Bal Incl.', 'Total Pending Due (INR)'];
+    const rows = filteredStudents.map(s => {
+      const t = getStudentFeeTotals(s);
+      return { s, t };
+    }).filter(x => x.t.totalDue > 0).map(({ s, t }) => [
+      s.admNo, s.name, s.course, s.currentTerm, s.type, s.phone, s.parentPhone,
+      t.collegeDue, t.hostelDue, t.uniformDue, t.cfTotal, t.totalDue
+    ]);
+    return { title: 'Pending Fee Dues / Defaulters Report', filename: 'Pending_Fee_Dues_Report', headers, rows };
+  }
+
+  if (type === 'hostel_day') {
+    const headers = ['Adm No', 'Student Name', 'Course', 'Term', 'Student Type', 'Mobile', 'Hostel Fee Assigned', 'Transport Fee Assigned', 'Total Paid', 'Total Due'];
+    const rows = filteredStudents.map(s => {
+      const t = getStudentFeeTotals(s);
+      return [s.admNo, s.name, s.course, s.currentTerm, s.type, s.phone, t.hostelTotal, (s.fees && s.fees.transportFee) || 0, t.totalPaid, t.totalDue];
+    });
+    return { title: 'Hosteller & Day Scholar Report', filename: 'Hosteller_DayScholar_Report', headers, rows };
+  }
+
+  if (type === 'course_summary') {
+    const courses = ['LLB 3 Year', 'LLB 5 Year'];
+    const headers = ['Course', 'Total Students', 'Hostellers', 'Day Scholars', 'Total Payable (INR)', 'Total Collected (INR)', 'Total Pending Due (INR)'];
+    const rows = courses.map(c => {
+      const list = filteredStudents.filter(s => s.course === c);
+      let payable = 0, paid = 0, due = 0, hos = 0, day = 0;
+      list.forEach(s => {
+        const t = getStudentFeeTotals(s);
+        payable += t.grandTotal; paid += t.totalPaid; due += t.totalDue;
+        if (s.type === 'Hosteller') hos++; else day++;
+      });
+      return [c, list.length, hos, day, payable, paid, due];
+    }).filter(r => r[1] > 0 || !cf);
+    return { title: 'Course-Wise Financial Summary Report', filename: 'Course_Wise_Summary', headers, rows };
+  }
+
+  if (type === 'notices') {
+    const headers = ['Ref No', 'Date', 'Title', 'Subject', 'Content Preview'];
+    const rows = db.notices.map(n => [n.ref, n.date, n.title, n.subject, (n.body || '').replace(/\n/g, ' ').slice(0, 120)]);
+    return { title: 'Official Notices & Letters Register', filename: 'Notices_Register', headers, rows };
+  }
+
+  if (type === 'gatepasses') {
+    const headers = ['Pass No', 'Date', 'Pass Type', 'Title', 'Student / Details', 'All Fields Summary'];
+    const rows = (db.gatePasses || []).map(g => {
+      const firstVal = (g.fields && g.fields[0] && g.fields[0].value) || g.studentName || '-';
+      const summary = (g.fields || []).map(f => `${f.label}: ${f.value}`).join(' | ');
+      return [g.passNo, g.date, g.type, g.title, firstVal, summary];
+    });
+    return { title: 'College & Hostel Gate Pass Register', filename: 'Gate_Pass_Register', headers, rows };
+  }
+
+  return { title: 'Report', filename: 'Report', headers: [], rows: [] };
+}
+
+function escapeCSV(val) {
+  const s = String(val === undefined || val === null ? '' : val);
+  if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+function downloadReportCSV(type) {
+  const rep = getReportData(type);
+  if (!rep.rows.length) {
+    toast('No records found for this report with current filters.');
+    return;
+  }
+  const lines = [rep.headers.map(escapeCSV).join(',')];
+  rep.rows.forEach(r => lines.push(r.map(escapeCSV).join(',')));
+  const csvContent = '\uFEFF' + lines.join('\r\n'); // UTF-8 BOM for MS Excel
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${rep.filename}_${todayISO()}.csv`;
+  a.click();
+  toast(`${rep.title} downloaded (Excel/CSV)!`);
+}
+
+function downloadAllReportsBundle() {
+  const types = ['students', 'receipts', 'dues', 'hostel_day', 'course_summary'];
+  let downloaded = 0;
+  types.forEach((t, idx) => {
+    const rep = getReportData(t);
+    if (rep.rows.length) {
+      setTimeout(() => downloadReportCSV(t), idx * 350);
+      downloaded++;
+    }
+  });
+  if (!downloaded) toast('No data available to export yet.');
+  else toast(`Downloading ${downloaded} Excel (.csv) reports...`);
+}
+
+function renderReportPreview() {
+  const box = document.getElementById('reportPreviewContainer');
+  const titleEl = document.getElementById('reportPreviewTitle');
+  if (!box) return;
+  const rep = getReportData(activePreviewReport);
+  if (titleEl) titleEl.textContent = `Live Report Preview: ${rep.title} (${rep.rows.length} rows)`;
+  if (!rep.rows.length) {
+    box.innerHTML = '<p style="color:var(--muted);padding:16px;text-align:center;">No records match the selected filters.</p>';
+    return;
+  }
+  box.innerHTML = `
+    <table>
+      <thead><tr>${rep.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+      <tbody>${rep.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+    </table>
+  `;
+}
+
+function printReportA4(type) {
+  const rep = getReportData(type);
+  if (!rep.rows.length) { toast('No records to print for this report.'); return; }
+  const html = `
+    <div class="print-page print-report">
+      ${getPrintHeaderHTML()}
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;">
+        <span><b>Report:</b> ${rep.title}</span>
+        <span><b>Generated On:</b> ${todayISO()} | <b>Total Records:</b> ${rep.rows.length}</span>
+      </div>
+      <div class="p-title">${rep.title}</div>
+      <div class="p-body">
+        <table class="p-table" style="font-size:11px;">
+          <thead><tr>${rep.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+          <tbody>${rep.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <div class="p-sign-row">
+        <div class="p-sign-box">Prepared By</div>
+        <div class="p-sign-box">${getOfficeStampHTML()}Office Seal</div>
+        <div class="p-sign-box">${getPrincipalStampHTML()}${db.settings.principal}</div>
+      </div>
+    </div>
+  `;
+  triggerPrint(html);
+}
+
+
+// ================= EDITABLE COLLEGE & HOSTEL GATE PASS ENGINE =================
+let gpFields = [];
+let gpSignatures = [];
+let gpPhoto = '';
+
+function getGatePassTemplate(type) {
+  return (db.gatePassTemplates && db.gatePassTemplates[type]) || DEFAULT_GATE_PASS_TEMPLATES[type] || DEFAULT_GATE_PASS_TEMPLATES['Hostel Gate Pass'];
+}
+
+function nowTimeStr() {
+  return todayISO() + ' ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+}
+
+function resetGatePassForm() {
+  document.getElementById('gpEditId').value = '';
+  document.getElementById('gpEditorHeading').textContent = '🚪 College & Hostel Gate Pass (100% Editable)';
+  document.getElementById('gpStudentSelect').value = '';
+  document.getElementById('gpDate').value = todayISO();
+  gpPhoto = '';
+  onGatePassTypeChange();
+}
+
+function onGatePassTypeChange() {
+  const type = document.getElementById('gpType').value;
+  const tpl = getGatePassTemplate(type);
+  const prefix = type === 'Hostel Gate Pass' ? 'HGP' : 'CGP';
+  const nextSeq = String((db.gatePasses || []).length + 1).padStart(3, '0');
+  if (!document.getElementById('gpEditId').value) {
+    document.getElementById('gpPassNo').value = `${prefix}/2026/${nextSeq}`;
+  }
+  document.getElementById('gpTitle').value = tpl.title || type.toUpperCase();
+  document.getElementById('gpHeaderAddress').value = tpl.headerAddress || '';
+  document.getElementById('gpShowHeader').checked = tpl.showHeader !== false;
+  document.getElementById('gpBothLogos').checked = tpl.bothLogos !== false;
+  document.getElementById('gpShowPhoto').checked = tpl.showPhoto !== false;
+  document.getElementById('gpCopies').value = tpl.copies || '2';
+  document.getElementById('gpNote').value = tpl.note || '';
+
+  gpFields = (tpl.fields || []).map(f => ({
+    label: f.label,
+    value: f.autoKey === 'outNow' ? nowTimeStr() : (f.autoKey === 'retNow' ? (todayISO() + ' 06:00 PM') : (f.value || '')),
+    autoKey: f.autoKey || ''
+  }));
+  gpSignatures = [...(tpl.signatures || ['Student Signature', 'Warden / Coordinator', 'Security Gate'])];
+
+  if (document.getElementById('gpStudentSelect').value) {
+    autoFillGatePassStudent(true);
+  } else {
+    renderGatePassFieldsEditor();
+    renderGatePassSignaturesEditor();
+    renderGatePassLivePreview();
+  }
+}
+
+function autoFillGatePassStudent(skipRender = false) {
+  const sid = document.getElementById('gpStudentSelect').value;
+  const st = db.students.find(s => s.id === sid);
+  if (st) {
+    gpPhoto = st.photo || '';
+    const map = {
+      name: st.name || '',
+      admNo: st.admNo || '',
+      regNo: st.regNo || '',
+      father: st.father || '',
+      mother: st.mother || '',
+      courseTerm: `${st.course || ''} (${st.currentTerm || ''})`,
+      type: st.type || '',
+      phone: st.phone || '',
+      parentPhone: st.parentPhone || '',
+      address: st.address || ''
+    };
+    gpFields.forEach(f => {
+      if (f.autoKey && map[f.autoKey] !== undefined) {
+        f.value = map[f.autoKey];
+      } else {
+        const lbl = (f.label || '').toLowerCase();
+        if (lbl.includes('student name')) f.value = map.name;
+        else if (lbl.includes('admission')) f.value = map.admNo;
+        else if (lbl.includes('father')) f.value = map.father;
+        else if (lbl.includes('course')) f.value = map.courseTerm;
+        else if (lbl.includes('student type')) f.value = map.type;
+        else if (lbl.includes('parent') && lbl.includes('mobile')) f.value = map.parentPhone;
+        else if (lbl.includes('student mobile')) f.value = map.phone;
+      }
+    });
+  }
+  renderGatePassFieldsEditor();
+  renderGatePassSignaturesEditor();
+  renderGatePassLivePreview();
+}
+
+function handleGatePassPhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxW = 220, maxH = 260;
+      const ratio = Math.min(maxW / img.width, maxH / img.height, 1);
+      canvas.width = img.width * ratio; canvas.height = img.height * ratio;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      gpPhoto = canvas.toDataURL('image/jpeg', 0.78);
+      renderGatePassLivePreview();
+      toast('Custom photo attached to Gate Pass!');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function renderGatePassFieldsEditor() {
+  const box = document.getElementById('gpFieldsContainer');
+  if (!box) return;
+  if (!gpFields.length) {
+    box.innerHTML = '<p style="font-size:12px;color:var(--muted);">No fields. Click "+ Add Field" to add details.</p>';
+    return;
+  }
+  box.innerHTML = gpFields.map((f, i) => `
+    <div class="gp-row">
+      <input type="text" value="${escapeAttr(f.label)}" placeholder="Field Name (e.g. Room No)" oninput="updateGpField(${i},'label',this.value)">
+      <input type="text" value="${escapeAttr(f.value)}" placeholder="Value / Detail" oninput="updateGpField(${i},'value',this.value)">
+      <button type="button" class="btn btn-outline btn-sm" title="Move Up" onclick="moveGpField(${i},-1)" ${i===0?'disabled':''}>↑</button>
+      <button type="button" class="btn btn-outline btn-sm" title="Move Down" onclick="moveGpField(${i},1)" ${i===gpFields.length-1?'disabled':''}>↓</button>
+      <button type="button" class="btn btn-danger btn-sm" title="Remove Field" onclick="removeGpField(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function escapeAttr(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function updateGpField(idx, key, val) {
+  if (!gpFields[idx]) return;
+  gpFields[idx][key] = val;
+  renderGatePassLivePreview();
+}
+
+function addGatePassField() {
+  gpFields.push({ label: 'Custom Field', value: '', autoKey: '' });
+  renderGatePassFieldsEditor();
+  renderGatePassLivePreview();
+}
+
+function removeGpField(idx) {
+  gpFields.splice(idx, 1);
+  renderGatePassFieldsEditor();
+  renderGatePassLivePreview();
+}
+
+function moveGpField(idx, dir) {
+  const target = idx + dir;
+  if (target < 0 || target >= gpFields.length) return;
+  const tmp = gpFields[idx];
+  gpFields[idx] = gpFields[target];
+  gpFields[target] = tmp;
+  renderGatePassFieldsEditor();
+  renderGatePassLivePreview();
+}
+
+function renderGatePassSignaturesEditor() {
+  const box = document.getElementById('gpSignaturesContainer');
+  if (!box) return;
+  box.innerHTML = gpSignatures.map((sig, i) => `
+    <span class="gp-sig-chip">
+      <input type="text" value="${escapeAttr(sig)}" oninput="updateGpSignature(${i}, this.value)">
+      <button type="button" onclick="removeGpSignature(${i})" style="border:none;background:none;color:var(--danger);cursor:pointer;font-weight:700;">✕</button>
+    </span>
+  `).join('') || '<span style="font-size:12px;color:var(--muted);">No signature boxes.</span>';
+}
+
+function updateGpSignature(idx, val) {
+  gpSignatures[idx] = val;
+  renderGatePassLivePreview();
+}
+
+function addGatePassSignature() {
+  gpSignatures.push('Authorized Signatory');
+  renderGatePassSignaturesEditor();
+  renderGatePassLivePreview();
+}
+
+function removeGpSignature(idx) {
+  gpSignatures.splice(idx, 1);
+  renderGatePassSignaturesEditor();
+  renderGatePassLivePreview();
+}
+
+function collectCurrentGatePassObject() {
+  const sid = document.getElementById('gpStudentSelect').value;
+  const st = db.students.find(s => s.id === sid);
+  const nameField = gpFields.find(f => (f.label || '').toLowerCase().includes('name'));
+  return {
+    id: document.getElementById('gpEditId').value || ('GP_' + Date.now()),
+    type: document.getElementById('gpType').value,
+    studentId: sid || '',
+    studentName: (nameField && nameField.value) || (st ? st.name : 'Manual Entry'),
+    title: document.getElementById('gpTitle').value.trim() || 'GATE PASS',
+    passNo: document.getElementById('gpPassNo').value.trim() || ('GP-' + Date.now()),
+    date: document.getElementById('gpDate').value || todayISO(),
+    headerAddress: document.getElementById('gpHeaderAddress').value.trim(),
+    copies: document.getElementById('gpCopies').value || '2',
+    showHeader: document.getElementById('gpShowHeader').checked,
+    bothLogos: document.getElementById('gpBothLogos').checked,
+    showPhoto: document.getElementById('gpShowPhoto').checked,
+    photo: gpPhoto,
+    note: document.getElementById('gpNote').value.trim(),
+    fields: JSON.parse(JSON.stringify(gpFields)),
+    signatures: JSON.parse(JSON.stringify(gpSignatures))
+  };
+}
+
+function buildGatePassCardHTML(gp, copyLabel = '', isPreview = false) {
+  const s = db.settings;
+  const leftSrc = s.logo || '';
+  const rightSrc = s.logoRight || s.logo || '';
+  const showBoth = gp.bothLogos !== false;
+  const addrLine = gp.headerAddress || `${s.collegeSub || ''}${s.address ? ' | ' + s.address : ''}`;
+
+  let headerHTML = '';
+  if (gp.showHeader) {
+    if (isPreview) {
+      const lTag = leftSrc
+        ? `<img src="${leftSrc}" style="width:46px;height:46px;object-fit:contain;flex-shrink:0;">`
+        : `<div style="width:44px;height:44px;border:1px dashed #94a3b8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#64748b;flex-shrink:0;">LOGO</div>`;
+      const rTag = showBoth
+        ? (rightSrc
+            ? `<img src="${rightSrc}" style="width:46px;height:46px;object-fit:contain;flex-shrink:0;">`
+            : `<div style="width:44px;height:44px;border:1px dashed #94a3b8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#64748b;flex-shrink:0;">LOGO</div>`)
+        : '';
+      headerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;border-bottom:2px solid #0f4c81;padding-bottom:6px;margin-bottom:8px;">
+          ${lTag}
+          <div style="flex:1;text-align:center;min-width:0;">
+            <div style="font-size:16px;font-weight:800;color:${s.collegeTitleColor || '#dc2626'};line-height:1.2;">${(s.collegeName || '').replace(/\n/g,'<br>')}</div>
+            <div style="font-size:9px;color:#222;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${gp.headerAddress ? escapeAttr(gp.headerAddress) : `<b>${escapeAttr(s.collegeSub)}</b> | ${escapeAttr(s.address)}`}</div>
+            <div style="font-size:9px;color:#475569;white-space:nowrap;">Phone: ${escapeAttr(s.phone)}</div>
+          </div>
+          ${rTag}
+        </div>`;
+    } else {
+      headerHTML = getPrintHeaderHTML(gp.headerAddress ? escapeAttr(gp.headerAddress) : '', showBoth);
+    }
+  }
+
+  // Build 2-column paired rows for compact A4 layout
+  let rowsHtml = '';
+  const list = gp.fields || [];
+  for (let i = 0; i < list.length; i += 2) {
+    const f1 = list[i];
+    const f2 = list[i + 1];
+    if (f2) {
+      rowsHtml += `<tr>
+        <th style="width:22%;">${escapeAttr(f1.label)}</th><td style="width:28%;"><b>${escapeAttr(f1.value) || '&nbsp;'}</b></td>
+        <th style="width:22%;">${escapeAttr(f2.label)}</th><td style="width:28%;"><b>${escapeAttr(f2.value) || '&nbsp;'}</b></td>
+      </tr>`;
+    } else {
+      rowsHtml += `<tr>
+        <th style="width:22%;">${escapeAttr(f1.label)}</th><td colspan="3"><b>${escapeAttr(f1.value) || '&nbsp;'}</b></td>
+      </tr>`;
+    }
+  }
+
+  const photoHtml = gp.showPhoto
+    ? (gp.photo
+        ? `<img src="${gp.photo}" style="width:${isPreview?72:88}px;height:${isPreview?86:106}px;object-fit:cover;border:1px solid #000;flex-shrink:0;">`
+        : `<div style="width:${isPreview?72:88}px;height:${isPreview?86:106}px;border:1px solid #000;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;">PHOTO</div>`)
+    : '';
+
+  const sigsHtml = (gp.signatures && gp.signatures.length)
+    ? `<div class="${isPreview ? '' : 'p-sign-row'}" style="${isPreview ? 'display:flex;justify-content:space-between;align-items:flex-start;margin-top:26px;font-size:10.5px;font-weight:600;gap:8px;' : 'padding-top:16px;'}">
+        ${gp.signatures.map(s => `<div class="${isPreview ? '' : 'p-sign-box'}" style="${isPreview ? 'padding-top:3px;min-width:90px;text-align:center;' : 'min-width:130px;'}">${escapeAttr(s)}</div>`).join('')}
+       </div>`
+    : '';
+
+  const noteHtml = gp.note
+    ? `<p style="font-size:${isPreview?10.5:11}px;margin-top:8px;white-space:pre-wrap;">${escapeAttr(gp.note)}</p>`
+    : '';
+
+  if (isPreview) {
+    return `
+      <div style="border:1.5px solid #000; padding:10px;">
+        ${headerHTML}
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:10.5px;margin-bottom:5px;">
+          <span><b>Pass No:</b> ${escapeAttr(gp.passNo)}</span>
+          ${copyLabel ? `<span style="font-weight:700;border:1px solid #334155;padding:1px 7px;border-radius:3px;">${copyLabel}</span>` : ''}
+          <span><b>Date:</b> ${escapeAttr(gp.date)}</span>
+        </div>
+        <div style="text-align:center;font-weight:800;font-size:12.5px;background:#f1f5f9;border:1px solid #334155;padding:3px;margin:5px 0 8px;text-transform:uppercase;">${escapeAttr(gp.title)}</div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <table style="width:100%;border-collapse:collapse;font-size:10.5px;margin:0;">${rowsHtml}</table>
+          ${photoHtml}
+        </div>
+        ${noteHtml}
+        ${sigsHtml}
+      </div>
+    `;
+  }
+
+  return `
+    ${headerHTML}
+    <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;margin-bottom:5px;">
+      <span><b>Pass No:</b> ${escapeAttr(gp.passNo)}</span>
+      ${copyLabel ? `<span style="font-weight:700;border:1px solid #334155;padding:1px 8px;border-radius:3px;">${copyLabel}</span>` : ''}
+      <span><b>Date:</b> ${escapeAttr(gp.date)}</span>
+    </div>
+    <div class="p-title" style="margin:5px 0 9px;padding:4px;font-size:14px;">${escapeAttr(gp.title)}</div>
+    <div class="p-body">
+      <div style="display:flex;gap:10px;align-items:flex-start;">
+        <table class="p-table" style="font-size:11.5px;margin:0;">${rowsHtml}</table>
+        ${photoHtml}
+      </div>
+      ${noteHtml}
+    </div>
+    ${sigsHtml}
+  `;
+}
+
+function renderGatePassLivePreview() {
+  const box = document.getElementById('gpLivePreview');
+  if (!box) return;
+  const gp = collectCurrentGatePassObject();
+  box.innerHTML = buildGatePassCardHTML(gp, gp.copies === '2' ? 'STUDENT COPY (2-Copy Mode)' : '', true);
+}
+
+function saveGatePassAsDefaultTemplate() {
+  const gp = collectCurrentGatePassObject();
+  db.gatePassTemplates = db.gatePassTemplates || {};
+  db.gatePassTemplates[gp.type] = {
+    title: gp.title,
+    headerAddress: gp.headerAddress,
+    showHeader: gp.showHeader,
+    bothLogos: gp.bothLogos,
+    showPhoto: gp.showPhoto,
+    copies: gp.copies,
+    note: gp.note,
+    fields: gp.fields.map(f => ({
+      label: f.label,
+      value: f.autoKey ? '' : f.value,
+      autoKey: f.autoKey || ''
+    })),
+    signatures: [...gp.signatures]
+  };
+  saveDB();
+  toast(`✅ "${gp.type}" custom format saved as default!`);
+}
+
+function resetGatePassTemplateToFactory() {
+  const type = document.getElementById('gpType').value;
+  if (!confirm(`Reset "${type}" layout back to original default fields?`)) return;
+  db.gatePassTemplates[type] = JSON.parse(JSON.stringify(DEFAULT_GATE_PASS_TEMPLATES[type]));
+  saveDB();
+  onGatePassTypeChange();
+  toast(`${type} format reset to default.`);
+}
+
+function saveAndPrintGatePass(doPrint) {
+  const gp = collectCurrentGatePassObject();
+  const editId = document.getElementById('gpEditId').value;
+  db.gatePasses = db.gatePasses || [];
+  if (editId) {
+    const idx = db.gatePasses.findIndex(x => x.id === editId);
+    if (idx > -1) db.gatePasses[idx] = gp;
+    toast('Gate Pass updated!');
+  } else {
+    db.gatePasses.unshift(gp);
+    toast('Gate Pass saved to Register!');
+  }
+  saveDB();
+  renderGatePassTable();
+  renderReportPreview();
+  if (doPrint) printSavedGatePass(gp.id);
+}
+
+function printSavedGatePass(id) {
+  const gp = (db.gatePasses || []).find(x => x.id === id);
+  if (!gp) return;
+  let pageHTML = '';
+  if (gp.copies === '2') {
+    pageHTML = `<div class="print-page print-dual">
+      <div class="p-half-card">${buildGatePassCardHTML(gp, 'STUDENT COPY', false)}</div>
+      <div style="border-top:1px dashed #64748b;margin:6px 0;text-align:center;font-size:10px;color:#475569;">✂ Cut Here</div>
+      <div class="p-half-card">${buildGatePassCardHTML(gp, 'GATE / OFFICE COPY', false)}</div>
+    </div>`;
+  } else {
+    pageHTML = `<div class="print-page">${buildGatePassCardHTML(gp, '', false)}</div>`;
+  }
+  triggerPrint(pageHTML);
+}
+
+function editSavedGatePass(id) {
+  const gp = (db.gatePasses || []).find(x => x.id === id);
+  if (!gp) return;
+  document.getElementById('gpEditId').value = gp.id;
+  document.getElementById('gpEditorHeading').textContent = '✏️ Editing Gate Pass: ' + gp.passNo;
+  document.getElementById('gpType').value = gp.type;
+  document.getElementById('gpStudentSelect').value = gp.studentId || '';
+  document.getElementById('gpTitle').value = gp.title;
+  document.getElementById('gpPassNo').value = gp.passNo;
+  document.getElementById('gpDate').value = gp.date;
+  document.getElementById('gpHeaderAddress').value = gp.headerAddress || '';
+  document.getElementById('gpCopies').value = gp.copies || '2';
+  document.getElementById('gpShowHeader').checked = gp.showHeader !== false;
+  document.getElementById('gpBothLogos').checked = gp.bothLogos !== false;
+  document.getElementById('gpShowPhoto').checked = gp.showPhoto !== false;
+  document.getElementById('gpNote').value = gp.note || '';
+  gpPhoto = gp.photo || '';
+  gpFields = JSON.parse(JSON.stringify(gp.fields || []));
+  gpSignatures = JSON.parse(JSON.stringify(gp.signatures || []));
+  renderGatePassFieldsEditor();
+  renderGatePassSignaturesEditor();
+  renderGatePassLivePreview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteSavedGatePass(id) {
+  if (!confirm('Delete this Gate Pass from Register?')) return;
+  db.gatePasses = (db.gatePasses || []).filter(x => x.id !== id);
+  saveDB();
+  renderGatePassTable();
+  renderReportPreview();
+  toast('Gate Pass deleted.');
+}
+
+function renderGatePassTable() {
+  const tb = document.getElementById('gpTableBody');
+  if (!tb) return;
+  const q = (document.getElementById('gpSearch')?.value || '').toLowerCase();
+  const rows = (db.gatePasses || []).filter(g => {
+    return !q || (g.passNo || '').toLowerCase().includes(q) || (g.studentName || '').toLowerCase().includes(q) || (g.type || '').toLowerCase().includes(q);
+  });
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px;">No Gate Passes issued yet.</td></tr>';
+    return;
+  }
+  tb.innerHTML = rows.map(g => `
+    <tr>
+      <td><b>${escapeAttr(g.passNo)}</b><br><span style="font-size:11px;color:var(--muted);">${escapeAttr(g.date)}</span></td>
+      <td><span class="badge ${g.type==='Hostel Gate Pass'?'badge-amber':'badge-blue'}">${escapeAttr(g.type)}</span></td>
+      <td><b>${escapeAttr(g.studentName)}</b><br><span style="font-size:11px;color:var(--muted);">${(g.fields||[]).length} fields</span></td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-teal btn-sm" onclick="printSavedGatePass('${g.id}')">Print</button>
+          <button class="btn btn-primary btn-sm" onclick="editSavedGatePass('${g.id}')">Edit</button>
+          <button class="btn btn-danger btn-sm admin-only" onclick="deleteSavedGatePass('${g.id}')">Del</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ================= INIT =================
+window.addEventListener('DOMContentLoaded', () => {
+  loadSettingsUI();
+  resetAdmissionForm();
+  resetFeeForm();
+  resetNoticeForm();
+  resetGatePassForm();
+  document.getElementById('certDate').value = todayISO();
+  toggleCertExtraFields();
+  refreshAllViews();
+});
+</script>
+</body>
+</html>
